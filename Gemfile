@@ -33,6 +33,8 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry-byebug'
   gem 'pry-rails'
+  gem 'rspec-rails', '~> 5.0.0'
+  gem 'factory_bot_rails'
 end
 
 group :development do
@@ -50,6 +52,11 @@ group :development do
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+end
+
+group :test do
+  gem 'capybara'
+  gem 'webdrivers', '~> 5.0', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
