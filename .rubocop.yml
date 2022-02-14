@@ -41,7 +41,7 @@ Naming/AccessorMethodName:
     - "app/controllers/**/*"
 
 Metrics/LineLength:
-  Max: 100
+  Max: 120
   IgnoredPatterns: ['\A#']
   Exclude:
     - "db/migrate/*.rb"
@@ -52,3 +52,6 @@ Metrics/MethodLength:
 
 Metrics/AbcSize:
   Max: 30
+
+Bundler/OrderedGems:
+  Enabled: false
