@@ -1,0 +1,149 @@
+@import "reset";
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+// 色の変数
+$main_color_text: #FFF;
+
+body {
+  color: $main_color_text;
+  height: 100%;
+}
+
+a {
+  color: $main_color_text;
+  text-decoration: none;
+
+  &:hover {
+    color: $main_color_text;
+  }
+}
+
+.bg-image {
+  position: relative;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 100%), url("bg_image.jpg"), no-repeat center center / cover;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+.header {
+  .bg-dark {
+    --bs-bg-opacity: 0.3;
+    background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+  }
+
+  .navbar-brand {
+    padding: 0;
+  }
+
+  img {
+    display: inline-block;
+    width: 222px;
+    height: 46px;
+  }
+}
+
+.main {
+  padding-top: 64px;
+}
+
+.top {
+  margin-top: 56px;
+  padding-bottom: 80px;
+
+  &-title {
+    img {
+      display: inline-block;
+      max-width: 95%
+    }
+  }
+
+  &-sub-title {
+    letter-spacing: 1rem;
+  }
+
+  &-catchcopy {
+    font-family: 'Special Elite';
+    font-size: 1.5rem;
+    letter-spacing: 0.1rem;
+  }
+
+  &-image {
+    img {
+      width: 100%;
+    }
+  }
+
+  .container-fluid {
+    max-width: 744px;
+  }
+
+  .btn {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+  }
+
+  .btn-primary {
+    background-color: #b40000;
+    border-color: #b8003a;
+
+    &:hover {
+      background-color: #b82828;
+      border-color: #af2121;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 0.25rem rgba(235, 133, 133, 0.514);
+    }
+
+    &:active {
+      background-color: #f03636;
+      border-color: #c52b2b;
+    }
+  }
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+
+  .bg-dark {
+    --bs-bg-opacity: 0.3;
+    background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+  }
+
+  .container-fluid {
+    max-width: 680px;
+  }
+
+  a {
+    &:hover {
+      opacity: 0.6;
+      transition: 0.2s;
+    }
+  }
+
+  p {
+    font-size: 0.75rem;
+  }
+}
+
+// 下から上へフェードイン
+.fadeup {
+  opacity: 0;
+  animation-name: fadeup;
+  animation-duration: 1.0s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+@keyframes fadeup {
+  0% {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
