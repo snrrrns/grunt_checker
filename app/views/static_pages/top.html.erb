@@ -1,2 +1,21 @@
-<h1>StaticPages#top</h1>
-<p>Find me in app/views/static_pages/top.html.erb</p>
+<section class="top">
+  <div class="container-fluid">
+    <div class="d-flex flex-column-reverse mb-3">
+      <h1 class="top-title">
+        <%= image_tag('top_logo.png') %>
+      </h1>
+      <p class="top-sub-title ms-2 mb-3">デスボイス測定アプリ</p>
+    </div>
+    <h2 class="top-catchcopy ms-2">SHOW ME YOUR VOKILL!!!!</h2>
+    <div class="row">
+      <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-center col-5">
+          <button type="button" class="btn btn-primary center-block mt-4 fadeup">はじめる</button>
+        </div>
+        <div class="top-image col-6">
+          <%= image_tag('top_image.png') %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
