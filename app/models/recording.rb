@@ -17,6 +17,6 @@
 #
 class Recording < ApplicationRecord
   validates :vocal_style, presence: true, uniqueness: true
-  validates :exapmle_vocal, uniqueness: true, allow_blank: true
+  validates :example_vocal, uniqueness: true, allow_blank: true
   validates :instruments, uniqueness: true, allow_blank: true
 end
