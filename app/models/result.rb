@@ -22,5 +22,5 @@
 #  fk_rails_...  (recording_id => recordings.id)
 #
 class Result < ApplicationRecord
-  belong_to :recording
+  belongs_to :recording
 end
