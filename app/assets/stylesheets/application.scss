@@ -105,6 +105,27 @@ a {
   }
 }
 
+.recording {
+  .container-fluid {
+    max-width: 680px;
+  }
+
+  .main-controls {
+    padding-bottom: 0.7rem;
+    height: 100%;
+  }
+
+  .sound-clips {
+    height: calc(100% - 240px - 0.7rem);
+    overflow: scroll;
+  }
+
+  button {
+    width: calc(45% - 1rem);
+
+  }
+}
+
 .footer {
   position: absolute;
   bottom: 0;
