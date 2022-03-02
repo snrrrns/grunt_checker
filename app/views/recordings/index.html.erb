@@ -1,2 +1,7 @@
-<h1>Recordings#index</h1>
-<p>Find me in app/views/recordings/index.html.erb</p>
+<div class="text-center">
+  <% @recordings.each do |recording| %>
+    <%= link_to recording_path(recording) do %>
+      <%= recording.vocal_style %>
+    <% end %>
+  <% end %>
+</div>
