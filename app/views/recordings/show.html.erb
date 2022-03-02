@@ -19,6 +19,14 @@
         <a id="js-download-link" type="hidden"></a>
       </div>
     </div>
+
+    <div class="d-flex justify-content-center my-5">
+      <button id="js-result-button" class="btn btn-primary">判定結果</button>
+      <%= form_with url: recording_results_path(@recording), id: "voiceform", local: true do |f| %>
+        <%= f.hidden_field :recording_id, :value => @recording.id %>
+        <%= f.hidden_field :vocal_data  %>
+      <% end %>
+    </div>
   </div>
 </section>
 
