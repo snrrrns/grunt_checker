@@ -1,5 +1,6 @@
 class ResultsController < ApplicationController
   before_action :set_result, only: %i[show]
+
   def show; end
 
   def create
