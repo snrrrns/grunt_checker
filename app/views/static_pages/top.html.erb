@@ -10,7 +10,9 @@
     <div class="row">
       <div class="d-flex justify-content-between">
         <div class="d-flex justify-content-center col-5">
-          <button type="button" class="btn btn-primary center-block mt-4 fadeup">はじめる</button>
+          <%= link_to recordings_path do %>
+            <button type="button" class="btn btn-primary center-block mt-4 fadeup">はじめる</button>
+          <% end %>
         </div>
         <div class="top-image col-6">
           <%= image_tag('top_image.png') %>
