@@ -23,4 +23,5 @@
 #
 class Result < ApplicationRecord
   belongs_to :recording
+  mount_uploader :vocal_data, VocalDataUploader
 end
