@@ -1,9 +1,14 @@
+import axios from 'axios';
+axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.headers['X-CSRF-TOKEN'] = document.getElementsByName('csrf-token')[0].getAttribute('content');
+
 const jsPermissionButton = document.getElementById('js-permission-button');
 const jsRecordButton = document.getElementById('js-record-button');
 const jsStopButton = document.getElementById('js-stop-button');
 const jsPlaybackButton = document.getElementById('js-playback-button');
 const jsPlayer = document.getElementById('js-player');
 const jsDownloadLink = document.getElementById('js-download-link');
+const jsResultButton = document.getElementById('js-result-button');
 
 let audioData = [];
 let bufferSize = 1024;
@@ -16,8 +21,8 @@ let mediaStreamSource = null;
 let timeout = null;
 
 let onAudioProcess = function(e) {
-  var input = e.inputBuffer.getChannelData(0);
-  var bufferData = new Float32Array(bufferSize);
+  let input = e.inputBuffer.getChannelData(0);
+  let bufferData = new Float32Array(bufferSize);
   for (var i = 0; i < bufferSize; i++) {
     bufferData[i] = input[i];
   }
@@ -26,7 +31,7 @@ let onAudioProcess = function(e) {
 
 let saveAudio = function() {
   exportWAV(audioData);
-  jsDownloadLink.download = 'vocal_data.wav';
+  jsDownloadLink.download = 'recorded.wav';
   audioContext.close().then(function() {
   })
 }
@@ -96,6 +101,7 @@ jsPermissionButton.disabled = false;
 jsRecordButton.disabled = true;
 jsStopButton.disabled = true;
 jsPlaybackButton.disabled = true;
+jsResultButton.disabled = true;
 
 jsPermissionButton.onclick = function() {
   if(!stream) {
@@ -118,6 +124,9 @@ jsPermissionButton.onclick = function() {
 
   jsPermissionButton.disabled = true;
   jsRecordButton.disabled = false;
+  jsStopButton.disabled = true;
+  jsPlaybackButton.disabled = true;
+  jsResultButton.disabled = true;
 }
 
 jsRecordButton.onclick = function() {
@@ -132,7 +141,7 @@ jsRecordButton.onclick = function() {
 
   jsRecordButton.disabled = true;
   jsStopButton.disabled = false;
-  jsPlaybackButton.disabled =true;
+  jsPlaybackButton.disabled = true;
 
   timeout = setTimeout(() => {
     jsStopButton.click();
@@ -149,6 +158,7 @@ jsStopButton.onclick = function() {
   jsRecordButton.disabled = false;
   jsStopButton.disabled = true;
   jsPlaybackButton.disabled = false;
+  jsResultButton.disabled = false;
 }
 
 jsPlaybackButton.onclick = function(audioBlob) {
@@ -161,3 +171,27 @@ jsPlaybackButton.onclick = function(audioBlob) {
     jsPlayer.play();
   }
 }
+
+jsResultButton.onclick = function() {
+  jsResultButton.disabled = true;
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', document.querySelector('#js-download-link').href, true);
+  xhr.responseType = 'blob';
+  xhr.send();
+  xhr.onload = function(e) {
+    var myBlob = this.response;
+    let formData = new FormData();
+    formData.append('recording_id', document.querySelector('#recording_id').value)
+    formData.append('vocal_data', myBlob, 'vocal.wav');
+    axios.post(document.querySelector('#voiceform').action, formData, {
+      headers: {
+        'content-type': 'multipart/form-data',
+      }
+    }).then(response => {
+        let data = response.data
+        window.location.href = data.url
+    }).catch(error => {
+        console.log(error.response)
+    })
+  } 
+  }
