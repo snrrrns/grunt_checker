@@ -16,6 +16,7 @@
 class Recording < ApplicationRecord
   has_many :results, dependent: :delete_all
   mount_uploader :instruments, InstrumentsUploader
+  mount_uploader :example_vocal, ExampleVocalUploader
 
   validates :vocal_style, presence: true, uniqueness: true
 end
