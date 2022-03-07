@@ -19,4 +19,8 @@ class Recording < ApplicationRecord
   mount_uploader :example_vocal, ExampleVocalUploader
 
   validates :vocal_style, presence: true, uniqueness: true
+
+  def to_param
+    vocal_style
+  end
 end
