@@ -1,0 +1,14 @@
+<div class="container mt-5" style="width: 400px">
+  <h1 class="my-5 text-center" style="font-size: 2rem">編集画面（仮）</h1>
+  <%= form_with model: @recording, local: true do |f| %>
+    <div class="form-group">
+      <%= f.label :vocal_style, class: 'mb-1' %>
+      <%= f.text_field :vocal_style, class: 'form-control mb-3' %>
+      <%= f.label :instruments, class: 'mb-1' %>
+      <%= f.file_field :instruments, class: 'form-control mb-3' %>
+      <%= f.label :example_vocal, class: 'mb-1' %>
+      <%= f.file_field :example_vocal, class: 'form-control mb-4' %>
+    </div>
+    <%= f.submit class: 'btn btn-primary' %>
+  <% end %>
+</div>
