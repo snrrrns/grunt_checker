@@ -5,7 +5,7 @@ class ResultsController < ApplicationController
 
   def create
     result = Result.create(result_params.merge(uuid: SecureRandom.uuid))
-    render json: { url: recording_result_url(result.recording_id, result.uuid) }
+    render json: { url: result_path(result.uuid) }
   end
 
   private
