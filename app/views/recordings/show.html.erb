@@ -1,22 +1,43 @@
 <section class="recording">
-  <div class="container-fluid">
-    <div class="main-controls">
-      <div class="d-flex justify-content-center my-4">
-        <button id="js-permission-button" class="btn btn-warning">マイク許可</button>
-      </div>
-      <div class="d-flex justify-content-between">
-        <button id="js-record-button" class="btn btn-primary">録音</button>
-        <button id="js-stop-button" class="btn btn-danger">停止</button>
-      </div>
-      <div class="d-flex justify-content-center my-4">
-        <button id="js-playback-button" class="btn btn-success">再生</button>
-      </div>
+  <div class="container-fluid"> 
+    <h1 class="text-center my-5" style="font-size: 2rem">録音ページ（仮）</h1>
+
+    <div class="d-flex justify-content-center my-4">
+      <button id="js-permission-button" class="btn btn-warning">マイク許可</button>
     </div>
 
-    <div class="sound-clips">
-      <div class="d-flex justify-content-center">
-        <audio id="js-player" controls></audio>
-        <a id="js-download-link" type="hidden"></a>
+    <div class="row">
+      <div class="col-6">
+        <div class="controls">
+          <div class="d-flex justify-content-center my-2">
+            <button id="js-record-button" class="btn btn-primary">録音</button>
+          </div>
+          <div class="d-flex justify-content-center my-2">
+            <button id="js-stop-button" class="btn btn-danger">録音停止</button>
+          </div>
+          <div class="d-flex justify-content-center my-2">
+            <button id="js-playback-button" class="btn btn-success">再生</button>
+          </div>
+          <div class="sound-clips">
+            <div class="d-flex justify-content-center">
+              <audio id="js-player"></audio>
+              <a id="js-download-link" type="hidden"></a>
+            </div>
+          </div>
+        </div>
+      </div> 
+
+      <div class="col-6">
+        <div class="controls">
+          <div class="d-flex justify-content-center my-2">
+            <button id="js-example-button" class="btn btn-success">お手本再生</button>
+          </div>
+          <div class="sound-clips">
+            <div class="d-flex justify-content-center my-2">
+              <%= audio_tag("#{@recording.example_vocal.url}", id: 'js-example-player') %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -26,6 +47,9 @@
         <%= f.hidden_field :recording_id, :value => @recording.id %>
         <%= f.hidden_field :vocal_data  %>
       <% end %>
+    </div>
+    <div class="text-center my-5">
+      <%= audio_tag("#{@recording.instruments.url}", id: 'js-instruments') %>
     </div>
   </div>
 </section>
