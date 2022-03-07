@@ -45,12 +45,12 @@ a {
 }
 
 .main {
-  padding-top: 64px;
+  padding: 64px 0 68px;
 }
 
 .top {
   margin-top: 56px;
-  padding-bottom: 80px;
+  padding-bottom: 20px;
 
   &-title {
     img {
@@ -110,9 +110,8 @@ a {
     max-width: 680px;
   }
 
-  .main-controls {
+  .controls {
     padding-bottom: 0.7rem;
-    height: 100%;
   }
 
   .sound-clips {

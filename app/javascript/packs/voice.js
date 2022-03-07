@@ -9,6 +9,8 @@ const jsPlaybackButton = document.getElementById('js-playback-button');
 const jsPlayer = document.getElementById('js-player');
 const jsDownloadLink = document.getElementById('js-download-link');
 const jsResultButton = document.getElementById('js-result-button');
+const jsExampleButton = document.getElementById('js-example-button');
+const jsExamplePlayer = document.getElementById('js-example-player');
 
 let audioData = [];
 let bufferSize = 1024;
@@ -23,7 +25,7 @@ let timeout = null;
 let onAudioProcess = function(e) {
   let input = e.inputBuffer.getChannelData(0);
   let bufferData = new Float32Array(bufferSize);
-  for (var i = 0; i < bufferSize; i++) {
+  for (let i = 0; i < bufferSize; i++) {
     bufferData[i] = input[i];
   }
   audioData.push(bufferData)
@@ -161,7 +163,7 @@ jsStopButton.onclick = function() {
   jsResultButton.disabled = false;
 }
 
-jsPlaybackButton.onclick = function(audioBlob) {
+jsPlaybackButton.onclick = function() {
   if(micBlobUrl) {
     jsPlayer.src = micBlobUrl;
     jsPlayer.onended = function() {
@@ -172,18 +174,22 @@ jsPlaybackButton.onclick = function(audioBlob) {
   }
 }
 
+jsExampleButton.onclick = function() {
+  jsExamplePlayer.play();
+}
+
 jsResultButton.onclick = function() {
   jsResultButton.disabled = true;
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', document.querySelector('#js-download-link').href, true);
+  let xhr = new XMLHttpRequest();
+  xhr.open('GET', document.getElementById('js-download-link').href, true);
   xhr.responseType = 'blob';
   xhr.send();
-  xhr.onload = function(e) {
-    var myBlob = this.response;
+  xhr.onload = function() {
+    let myBlob = this.response;
     let formData = new FormData();
-    formData.append('recording_id', document.querySelector('#recording_id').value)
+    formData.append('recording_id', document.getElementById('recording_id').value)
     formData.append('vocal_data', myBlob, 'vocal.wav');
-    axios.post(document.querySelector('#voiceform').action, formData, {
+    axios.post(document.getElementById('voiceform').action, formData, {
       headers: {
         'content-type': 'multipart/form-data',
       }
@@ -194,4 +200,4 @@ jsResultButton.onclick = function() {
         console.log(error.response)
     })
   } 
-  }
+}

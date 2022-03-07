@@ -11,14 +11,12 @@
 #
 # Indexes
 #
-#  index_recordings_on_example_vocal  (example_vocal) UNIQUE
-#  index_recordings_on_instruments    (instruments) UNIQUE
-#  index_recordings_on_vocal_style    (vocal_style) UNIQUE
+#  index_recordings_on_vocal_style  (vocal_style) UNIQUE
 #
 class Recording < ApplicationRecord
   has_many :results, dependent: :delete_all
+  mount_uploader :instruments, InstrumentsUploader
+  mount_uploader :example_vocal, ExampleVocalUploader
 
   validates :vocal_style, presence: true, uniqueness: true
-  validates :example_vocal, uniqueness: true, allow_blank: true
-  validates :instruments, uniqueness: true, allow_blank: true
 end
