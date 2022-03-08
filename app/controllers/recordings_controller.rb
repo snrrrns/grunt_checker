@@ -24,6 +24,6 @@ class RecordingsController < ApplicationController
   end
 
   def set_recording
-    @recording = Recording.find_by(vocal_style: params[:vocal_style])
+    @recording = Recording.find(params[:id])
   end
 end
