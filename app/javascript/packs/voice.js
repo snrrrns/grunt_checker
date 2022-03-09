@@ -9,8 +9,9 @@ const jsPlaybackButton = document.getElementById('js-playback-button');
 const jsPlayer = document.getElementById('js-player');
 const jsDownloadLink = document.getElementById('js-download-link');
 const jsResultButton = document.getElementById('js-result-button');
+const jsRetakeButton = document.getElementById('js-retake-button');
 const jsExampleButton = document.getElementById('js-example-button');
-const jsExamplePlayer = document.getElementById('js-example-player');
+const jsExampleVocalLink = document.getElementById('js-example-vocal-link');
 
 let audioData = [];
 let bufferSize = 1024;
@@ -113,6 +114,9 @@ jsPermissionButton.onclick = function() {
     })
 
     .then(function(audio) {
+      jsPermissionButton.classList.add('d-none');
+      jsRecordButton.classList.remove('d-none');
+
       stream = audio;
       console.log('録音可能です');
       return stream;
@@ -132,6 +136,9 @@ jsPermissionButton.onclick = function() {
 }
 
 jsRecordButton.onclick = function() {
+  jsRecordButton.classList.add('d-none');
+  jsStopButton.classList.remove('d-none');
+
   audioData = [];
   audioContext = new AudioContext();
   audioSampleRate = audioContext.sampleRate;
@@ -144,10 +151,11 @@ jsRecordButton.onclick = function() {
   jsRecordButton.disabled = true;
   jsStopButton.disabled = false;
   jsPlaybackButton.disabled = true;
+  jsExampleButton.disabled = true;
 
   timeout = setTimeout(() => {
     jsStopButton.click();
-  }, 5500);
+  }, 5000);
 
   jsStopButton.addEventListener('click', () => {
     clearTimeout(timeout);
@@ -156,11 +164,17 @@ jsRecordButton.onclick = function() {
 }
 
 jsStopButton.onclick = function() {
+  jsStopButton.classList.add('d-none');
+  jsPlaybackButton.classList.remove('d-none');
+  jsRetakeButton.classList.remove('d-none');
+  jsResultButton.classList.remove('d-none');
+
   saveAudio();
   jsRecordButton.disabled = false;
   jsStopButton.disabled = true;
   jsPlaybackButton.disabled = false;
   jsResultButton.disabled = false;
+  jsExampleButton.disabled = false;
 }
 
 jsPlaybackButton.onclick = function() {
@@ -175,11 +189,25 @@ jsPlaybackButton.onclick = function() {
 }
 
 jsExampleButton.onclick = function() {
-  jsExamplePlayer.play();
+  jsPlayer.src = jsExampleVocalLink.href;
+  jsPlayer.onended = function() {
+    jsPlayer.pause();
+    jsPlayer.src = ''
+  }
+  jsPlayer.play();
+}
+
+jsRetakeButton.onclick = function() {
+  jsRetakeButton.classList.add('d-none');
+  jsResultButton.classList.add('d-none');
+  jsPlaybackButton.classList.add('d-none');
+  jsRecordButton.classList.remove('d-none');
 }
 
 jsResultButton.onclick = function() {
   jsResultButton.disabled = true;
+  jsRetakeButton.disabled = true;
+
   let xhr = new XMLHttpRequest();
   xhr.open('GET', document.getElementById('js-download-link').href, true);
   xhr.responseType = 'blob';
