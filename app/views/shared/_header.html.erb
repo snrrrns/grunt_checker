@@ -1,7 +1,11 @@
 <header class="header">
   <nav class="fixed-top navbar bg-dark">
     <div class="container-sm">
-      <%= link_to image_tag('header_logo.png', class: 'navbar-brand'), root_path %>
+      <% if current_page?(root_path) %>
+        <%= image_tag('header_logo.png', class: 'navbar-brand') %>
+      <% else %>
+        <%= link_to image_tag('header_logo.png', class: 'navbar-brand'), root_path %>
+      <% end %>
     </div>
   </nav>
 </header>
