@@ -12,6 +12,7 @@ const jsResultButton = document.getElementById('js-result-button');
 const jsRetakeButton = document.getElementById('js-retake-button');
 const jsExampleButton = document.getElementById('js-example-button');
 const jsExampleVocalLink = document.getElementById('js-example-vocal-link');
+const jsTimer = document.getElementById('js-timer');
 
 let audioData = [];
 let bufferSize = 1024;
@@ -22,6 +23,18 @@ let micBlobUrl = null;
 let scriptProcessor = null;
 let mediaStreamSource = null;
 let timeout = null;
+
+let stanby = function() {
+  jsTimer.innerHTML = '録音開始クリックと同時に歌おう！(最大5秒)';
+}
+
+let nowRecording = function() {
+  jsTimer.innerHTML = '録音中...終了まであと5秒';
+}
+
+let done = function() {
+  jsTimer.innerHTML = '録音完了！';
+}
 
 let onAudioProcess = function(e) {
   let input = e.inputBuffer.getChannelData(0);
@@ -107,6 +120,7 @@ jsPlaybackButton.disabled = true;
 jsResultButton.disabled = true;
 
 jsPermissionButton.onclick = function() {
+  jsPlayer.src = ''
   if(!stream) {
     navigator.mediaDevices.getUserMedia({
       video: false,
@@ -128,6 +142,7 @@ jsPermissionButton.onclick = function() {
     })
   }
 
+  stanby();
   jsPermissionButton.disabled = true;
   jsRecordButton.disabled = false;
   jsStopButton.disabled = true;
@@ -136,6 +151,7 @@ jsPermissionButton.onclick = function() {
 }
 
 jsRecordButton.onclick = function() {
+  jsPlayer.src = ''
   jsRecordButton.classList.add('d-none');
   jsStopButton.classList.remove('d-none');
 
@@ -153,12 +169,25 @@ jsRecordButton.onclick = function() {
   jsPlaybackButton.disabled = true;
   jsExampleButton.disabled = true;
 
+  nowRecording();
+  let sec = 4;
+  let countDownTime = setInterval(() => {
+    let remainingTime = sec--;
+    let string = `録音中...終了まであと${remainingTime}秒`;
+    jsTimer.innerHTML = string;
+    if (sec === 0) {
+      clearInterval(countDownTime);
+    }
+  }, 1000);
+
   timeout = setTimeout(() => {
     jsStopButton.click();
   }, 5000);
 
   jsStopButton.addEventListener('click', () => {
+    clearInterval(countDownTime);
     clearTimeout(timeout);
+    done();
     console.log('停止しました');
   });
 }
@@ -198,13 +227,17 @@ jsExampleButton.onclick = function() {
 }
 
 jsRetakeButton.onclick = function() {
+  jsPlayer.src = '';
   jsRetakeButton.classList.add('d-none');
   jsResultButton.classList.add('d-none');
   jsPlaybackButton.classList.add('d-none');
   jsRecordButton.classList.remove('d-none');
+
+  stanby();
 }
 
 jsResultButton.onclick = function() {
+  jsPlayer.src = '';
   jsResultButton.disabled = true;
   jsRetakeButton.disabled = true;
 
