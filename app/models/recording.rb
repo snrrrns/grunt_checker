@@ -3,8 +3,8 @@
 # Table name: recordings
 #
 #  id            :bigint           not null, primary key
-#  example_vocal :string
-#  instruments   :string
+#  example_vocal :string           not null
+#  instruments   :string           not null
 #  vocal_style   :string           not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -19,4 +19,6 @@ class Recording < ApplicationRecord
   mount_uploader :example_vocal, ExampleVocalUploader
 
   validates :vocal_style, presence: true, uniqueness: true
+  validates :example_vocal, presence: true
+  validates :instruments, presence: true
 end
