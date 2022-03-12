@@ -1,10 +1,15 @@
 <section class="recording">
   <div class="container-fluid"> 
-    <h1 class="text-center mt-5 mb-3" style="font-size: 2rem">録音ページ（仮）</h1>
-    <h2 class="text-center mb-5"><%= @recording.vocal_style %>編</h2>
+    <h1 class="text-center my-4" style="font-size: 1.8rem">録音ページ（仮）</h1>
+    <h2 class="text-center mb-4"><%= @recording.vocal_style %>編</h2>
+  </div>
 
-    <div class="text-center my-4"><span id="js-timer">マイクを許可してください</span></div>
+  <div class="visualizer">
+    <canvas id="js-canvas"></canvas>
+  </div>
 
+  <div class="container-fluid">
+    <div class="text-center my-3"><span id="js-timer">マイクを許可してください</span></div>
     <div class="row">
       <div class="col-6">
         <div class="controls">
@@ -26,7 +31,7 @@
       </div>
     </div>
 
-    <div class="sound-clips my-4">
+    <div class="sound-clips my-3">
       <div class="d-flex justify-content-center">
         <audio id="js-player" controls></audio>
 
@@ -36,7 +41,7 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-center mt-5">
+    <div class="d-flex justify-content-center">
       <button id="js-result-button" class="btn btn-primary d-none">判定結果</button>
     </div>
     <%= form_with url: recording_results_path(@recording), id: "voiceform", local: true do |f| %>
@@ -45,7 +50,7 @@
     <% end %>
 
     <div class="d-flex justify-content-center">
-      <button id="js-retake-button" class="btn btn-danger mt-3 d-none">やり直す</button>
+      <button id="js-retake-button" class="btn btn-danger my-3 d-none">やり直す</button>
     </div>
   </div>
 </section>
