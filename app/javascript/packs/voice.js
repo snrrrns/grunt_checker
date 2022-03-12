@@ -14,7 +14,10 @@ const jsRetakeButton = document.getElementById('js-retake-button');
 const jsExampleButton = document.getElementById('js-example-button');
 const jsExampleVocalLink = document.getElementById('js-example-vocal-link');
 const jsTimer = document.getElementById('js-timer');
+const jsCanvas = document.getElementById('js-canvas');
 
+let canvasContext = null;
+let drawContext = null;
 let audioData = [];
 let bufferSize = 1024;
 let stream = null;
@@ -161,6 +164,7 @@ jsPermissionButton.onclick = function() {
       jsRecordButton.classList.remove('d-none');
 
       stream = audio;
+      visualize(stream);
       console.log('録音可能です');
       return stream;
     })
@@ -186,7 +190,7 @@ jsRecordButton.onclick = function() {
   jsStopButton.disabled = false;
   jsPlaybackButton.disabled = true;
   jsExampleButton.disabled = true;
-  
+
   readyMessage();
   fourCount();
 
@@ -298,3 +302,65 @@ jsResultButton.onclick = function() {
     })
   } 
 }
+
+let visualize = function(stream) {
+  if (!drawContext) {
+    drawContext = new AudioContext();
+  }
+
+  const source = drawContext.createMediaStreamSource(stream);
+  const analyser = drawContext.createAnalyser();
+  const bufferLength =  analyser.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+  
+  analyser.fftSize = 2048;
+  source.connect(analyser);
+  
+  canvasContext = jsCanvas.getContext('2d');
+  draw();
+
+  function draw() {
+    const WIDTH = jsCanvas.width;
+    const HEIGHT = jsCanvas.height;
+
+    requestAnimationFrame(draw);
+
+    analyser.getByteTimeDomainData(dataArray);
+
+    canvasContext.fillStyle = 'rgb(0, 0, 0)';
+    canvasContext.strokeStyle = 'rgb(200, 200, 200)';
+    canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
+    canvasContext.lineWidth = 5;
+    canvasContext.beginPath();
+
+    let sliceWidth = WIDTH * 1.0 / bufferLength;
+    let x = 0;
+
+    for (let i = 0; i < bufferLength; i++) {
+      let v = dataArray[i] / 128.0;
+      let y = v * HEIGHT / 2;
+
+      if (i === 0) {
+        canvasContext.moveTo(x, y);
+      } else {
+        canvasContext.lineTo(x, y);
+      }
+
+      x += sliceWidth;
+    }
+
+    canvasContext.lineTo(jsCanvas.width, jsCanvas.height / 2);
+    canvasContext.stroke();
+  }
+}
+
+let canvasResize =  function() {
+  let windowInnerWidth = window.innerWidth;
+  let windowInnerHeight = window.innerHeight;
+
+  jsCanvas.setAttribute('width', windowInnerWidth);
+  jsCanvas.setAttribute('height', windowInnerHeight);
+}
+
+window.addEventListener('resize', canvasResize, false);
+canvasResize();
