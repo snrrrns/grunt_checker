@@ -193,7 +193,7 @@ jsRecordButton.onclick = function() {
 
   readyMessage();
   fourCount();
-  
+
   recStart = setTimeout(() => {
     jsRecordButton.classList.add('d-none');
     jsStopButton.classList.remove('d-none');
