@@ -207,7 +207,7 @@ jsRecordButton.onclick = function() {
     let sec = 4;
     countDownTime = setInterval(() => {
       let remainingTime = sec--;
-      let string = `録音中...終了まであと${remainingTime}秒`;
+      let string = `録音中！終了まであと${remainingTime}秒`;
       jsTimer.innerHTML = string;
       if (sec === 0) {
         clearInterval(countDownTime);
