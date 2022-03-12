@@ -1,3 +1,4 @@
+import * as Tone from 'tone';
 import axios from 'axios';
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers['X-CSRF-TOKEN'] = document.getElementsByName('csrf-token')[0].getAttribute('content');
@@ -22,18 +23,46 @@ let audioSampleRate = null;
 let micBlobUrl = null;
 let scriptProcessor = null;
 let mediaStreamSource = null;
+let recStart = null;
+let countDownTime = null;
 let timeout = null;
 
-let stanby = function() {
-  jsTimer.innerHTML = '録音開始クリックと同時に歌おう！(最大5秒)';
+let stanbyMessage = function() {
+  jsTimer.innerHTML = '録音開始をクリックすると4カウントが始まり、その後に録音されます(最大5秒)';
 }
 
-let nowRecording = function() {
-  jsTimer.innerHTML = '録音中...終了まであと5秒';
+let readyMessage = function() {
+  jsTimer.innerHTML = 'Ready...'
 }
 
-let done = function() {
+let nowRecordingMessage = function() {
+  jsTimer.innerHTML = '録音中！終了まであと5秒';
+}
+
+let doneMessage = function() {
   jsTimer.innerHTML = '録音完了！';
+}
+
+let fourCount = function() {
+  let melodyList = ['G5', 'C5', 'C5', 'C5'];
+  let synth = new Tone.FMSynth({
+    envelope: {
+      attack: 0.015,
+      decay: 0.02,
+      sustain: 0,
+      release: 1
+    }
+  }).toDestination();
+
+  let melody = new Tone.Sequence(setPlay, melodyList).start();
+
+  melody.loop = 1;
+  Tone.Transport.bpm.value = 60;
+  Tone.Transport.start();
+
+  function setPlay(time, note) {
+    synth.triggerAttackRelease(note, '32n', time);
+  }
 }
 
 let onAudioProcess = function(e) {
@@ -142,7 +171,7 @@ jsPermissionButton.onclick = function() {
     })
   }
 
-  stanby();
+  stanbyMessage();
   jsPermissionButton.disabled = true;
   jsRecordButton.disabled = false;
   jsStopButton.disabled = true;
@@ -152,44 +181,51 @@ jsPermissionButton.onclick = function() {
 
 jsRecordButton.onclick = function() {
   jsPlayer.src = ''
-  jsRecordButton.classList.add('d-none');
-  jsStopButton.classList.remove('d-none');
-
-  audioData = [];
-  audioContext = new AudioContext();
-  audioSampleRate = audioContext.sampleRate;
-  scriptProcessor = audioContext.createScriptProcessor(bufferSize, 2, 2);
-  mediaStreamSource = audioContext.createMediaStreamSource(stream);
-  mediaStreamSource.connect(scriptProcessor);
-  scriptProcessor.onaudioprocess = onAudioProcess;
-  scriptProcessor.connect(audioContext.destination);
-
+  
   jsRecordButton.disabled = true;
   jsStopButton.disabled = false;
   jsPlaybackButton.disabled = true;
   jsExampleButton.disabled = true;
+  
+  readyMessage();
+  fourCount();
 
-  nowRecording();
-  let sec = 4;
-  let countDownTime = setInterval(() => {
-    let remainingTime = sec--;
-    let string = `録音中...終了まであと${remainingTime}秒`;
-    jsTimer.innerHTML = string;
-    if (sec === 0) {
+  recStart = setTimeout(() => {
+    jsRecordButton.classList.add('d-none');
+    jsStopButton.classList.remove('d-none');
+
+    audioData = [];
+    audioContext = new AudioContext();
+    audioSampleRate = audioContext.sampleRate;
+    scriptProcessor = audioContext.createScriptProcessor(bufferSize, 2, 2);
+    mediaStreamSource = audioContext.createMediaStreamSource(stream);
+    mediaStreamSource.connect(scriptProcessor);
+    scriptProcessor.onaudioprocess = onAudioProcess;
+    scriptProcessor.connect(audioContext.destination);
+
+    nowRecordingMessage();
+    let sec = 4;
+    countDownTime = setInterval(() => {
+      let remainingTime = sec--;
+      let string = `録音中！終了まであと${remainingTime}秒`;
+      jsTimer.innerHTML = string;
+      if (sec === 0) {
+        clearInterval(countDownTime);
+      }
+    }, 1000);
+
+    timeout = setTimeout(() => {
+      jsStopButton.click();
+    }, 5000);
+
+    jsStopButton.addEventListener('click', () => {
       clearInterval(countDownTime);
-    }
-  }, 1000);
-
-  timeout = setTimeout(() => {
-    jsStopButton.click();
-  }, 5000);
-
-  jsStopButton.addEventListener('click', () => {
-    clearInterval(countDownTime);
-    clearTimeout(timeout);
-    done();
-    console.log('停止しました');
-  });
+      clearTimeout(timeout);
+      clearTimeout(recStart);
+      doneMessage();
+      console.log('停止しました');
+    });
+  }, 2000);
 }
 
 jsStopButton.onclick = function() {
@@ -233,7 +269,7 @@ jsRetakeButton.onclick = function() {
   jsPlaybackButton.classList.add('d-none');
   jsRecordButton.classList.remove('d-none');
 
-  stanby();
+  stanbyMessage();
 }
 
 jsResultButton.onclick = function() {
