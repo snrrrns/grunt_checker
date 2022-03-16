@@ -11,7 +11,7 @@ class ResultsController < ApplicationController
   private
 
   def result_params
-    params.permit(:recording_id, :vocal_data)
+    params.permit(:recording_id, :vocal_data, :compose_song)
   end
 
   def set_result

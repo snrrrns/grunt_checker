@@ -1,3 +1,8 @@
 <div class="text-center">
-  <%= audio_tag("#{@result.vocal_data.url}", controls: true) %>
+  <p class="mt-5 mb-2">録音した音声</p>
+  <%= audio_tag("#{@result.vocal_data.url}", controls: true, class: 'mb-5', id: 'js-vocal-player') %>
+  <p class="my-2">演奏と合わせた音声</p>
+  <%= audio_tag("#{@result.compose_song.url}", controls: true, class: 'mb-5', id: 'js-song-player') %>
 </div>
+
+<%= javascript_pack_tag 'common' %>

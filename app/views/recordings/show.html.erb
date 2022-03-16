@@ -34,12 +34,14 @@
     <div class="sound-clips my-3">
       <div class="d-flex justify-content-center">
         <audio id="js-player" controls></audio>
-
         <a id="js-download-link" type="hidden"></a>
+        <a id="js-mix-link" type="hidden"></a>
         <%= link_to('', @recording.example_vocal.url, id: 'js-example-vocal-link', type: 'hidden') %>
-        <%= link_to('', @recording.instruments.url, id: 'js-instruments-link', type: 'hidden') %>
       </div>
     </div>
+
+    <%= audio_tag('growl_inst.wav', id: 'js-audio-instruments') %>
+    <audio id="js-audio-origin"></audio>
 
     <div class="d-flex justify-content-center">
       <button id="js-result-button" class="btn btn-primary d-none">判定結果</button>
@@ -47,6 +49,7 @@
     <%= form_with url: recording_results_path(@recording), id: "voiceform", local: true do |f| %>
       <%= f.hidden_field :recording_id, :value => @recording.id %>
       <%= f.hidden_field :vocal_data %>
+      <%= f.hidden_field :compose_song %>
     <% end %>
 
     <div class="d-flex justify-content-center">
