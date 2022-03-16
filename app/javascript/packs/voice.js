@@ -13,11 +13,12 @@ const jsResultButton = document.getElementById('js-result-button');
 const jsRetakeButton = document.getElementById('js-retake-button');
 const jsExampleButton = document.getElementById('js-example-button');
 const jsExampleVocalLink = document.getElementById('js-example-vocal-link');
+const jsAudioInstruments = document.getElementById('js-audio-instruments');
+const jsAudioOrigin = document.getElementById('js-audio-origin');
+const jsMixLink = document.getElementById('js-mix-link');
 const jsTimer = document.getElementById('js-timer');
 const jsCanvas = document.getElementById('js-canvas');
 
-let canvasContext = null;
-let drawContext = null;
 let audioData = [];
 let bufferSize = 1024;
 let stream = null;
@@ -29,24 +30,36 @@ let mediaStreamSource = null;
 let recStart = null;
 let countDownTime = null;
 let timeout = null;
+let mixContext = null;
+let mixDestination = null;
+let srcInstruments = null;
+let srcOrigin = null;
+let originPlay = null;
+let mixRecorder = null;
+let mixData = [];
+let mixUrl = null;
+let gainNode = null;
+let gainValue = 0.9;
+let canvasContext = null;
+let drawContext = null;
 
-let stanbyMessage = function() {
+function stanbyMessage() {
   jsTimer.innerHTML = '録音開始をクリックすると4カウントが始まり、その後に録音されます(最大5秒)';
 }
 
-let readyMessage = function() {
+function readyMessage() {
   jsTimer.innerHTML = 'Ready...'
 }
 
-let nowRecordingMessage = function() {
+function nowRecordingMessage() {
   jsTimer.innerHTML = '録音中！終了まであと5秒';
 }
 
-let doneMessage = function() {
+function doneMessage() {
   jsTimer.innerHTML = '録音完了！';
 }
 
-let fourCount = function() {
+function fourCount() {
   let melodyList = ['G5', 'C5', 'C5', 'C5'];
   let synth = new Tone.FMSynth({
     envelope: {
@@ -68,7 +81,7 @@ let fourCount = function() {
   }
 }
 
-let onAudioProcess = function(e) {
+function onAudioProcess(e) {
   let input = e.inputBuffer.getChannelData(0);
   let bufferData = new Float32Array(bufferSize);
   for (let i = 0; i < bufferSize; i++) {
@@ -77,14 +90,14 @@ let onAudioProcess = function(e) {
   audioData.push(bufferData)
 }
 
-let saveAudio = function() {
+function saveAudio() {
   exportWAV(audioData);
   jsDownloadLink.download = 'recorded.wav';
   audioContext.close().then(function() {
   })
 }
 
-let exportWAV = function(audioData) {
+function exportWAV(audioData) {
   let encodeWAV = function(samples, sampleRate) {
     let buffer = new ArrayBuffer(44 + samples.length * 2);
     let view = new DataView(buffer);
@@ -143,20 +156,171 @@ let exportWAV = function(audioData) {
   let myURL = window.URL || window.webkitURL;
   let url = myURL.createObjectURL(audioBlob);
   jsDownloadLink.href = url;
+  jsAudioOrigin.src = url;
 };
 
+async function mixing() {
+  console.log('ミックス開始');
+  mixContext = new AudioContext();
+  mixDestination = mixContext.createMediaStreamDestination();
+
+  srcOrigin = mixContext.createMediaElementSource(jsAudioOrigin);
+  srcInstruments = mixContext.createMediaElementSource(jsAudioInstruments);
+  
+  gainNode = mixContext.createGain();
+  gainNode.gain.value = gainValue;
+  
+  srcInstruments.connect(gainNode);
+  srcInstruments.connect(mixDestination);
+  srcOrigin.connect(mixDestination);
+  
+  jsAudioInstruments.play();
+  originPlay = setTimeout(() => {
+    jsAudioOrigin.play();
+  }, 3600);
+
+  mixRecorder = new MediaRecorder(mixDestination.stream);
+  mixRecorder.start();
+
+  await (() => {
+    return new Promise(resolve => {
+      jsAudioInstruments.addEventListener('ended', async() => {
+        await completeMixing();
+        await resolve();
+      }, { once: true });
+    });
+  })();
+}
+
+function completeMixing() {
+  mixRecorder.ondataavailable = (e) => {
+    mixData = [];
+    mixData.push(e.data);
+    mixUrl = window.URL.createObjectURL(e.data);
+    jsMixLink.href = mixUrl;
+    jsMixLink.download = 'mix.webm';
+  }
+  mixRecorder.stop();
+  srcInstruments.disconnect(gainNode);
+  srcInstruments.disconnect(mixDestination);
+  srcOrigin.disconnect(mixDestination);
+  console.log('ミックス完了');
+}
+
+function firstXhr() {
+  let xhr1 = new XMLHttpRequest();
+  xhr1.open('GET', jsDownloadLink.href, true);
+  xhr1.responseType = 'blob';
+  xhr1.send();
+  xhr1.onload = function() {
+    let vocalBlob = this.response;
+    secondXhr(vocalBlob);
+  }
+}
+
+function secondXhr(vocalBlob) {
+  let xhr2 = new XMLHttpRequest();
+  xhr2.open('GET', jsMixLink.href, true);
+  xhr2.responseType = 'blob';
+  xhr2.send();
+  xhr2.onload = function() {
+    let mixBlob = this.response;
+    let formData = new FormData();
+    formData.append('recording_id', document.getElementById('recording_id').value);
+    formData.append('vocal_data', vocalBlob, 'vocal.wav');
+    formData.append('compose_song', mixBlob, 'song.webm');
+    axios.post(document.getElementById('voiceform').action, formData, {
+      headers: {
+        'content-type': 'multipart/form-data',
+      }
+    }).then(response => {
+      let data = response.data
+      window.location.href = data.url
+    }).catch(error => {
+      console.log(error.responce)
+    })
+  }
+}
+
+function visualize(stream) {
+  if (!drawContext) {
+    drawContext = new AudioContext();
+  }
+
+  const source = drawContext.createMediaStreamSource(stream);
+  const analyser = drawContext.createAnalyser();
+  const bufferLength =  analyser.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+  
+  analyser.fftSize = 2048;
+  source.connect(analyser);
+  
+  canvasContext = jsCanvas.getContext('2d');
+  draw();
+
+  function draw() {
+    const WIDTH = jsCanvas.width;
+    const HEIGHT = jsCanvas.height;
+
+    requestAnimationFrame(draw);
+
+    analyser.getByteTimeDomainData(dataArray);
+
+    canvasContext.fillStyle = 'rgb(0, 0, 0)';
+    canvasContext.strokeStyle = 'rgb(200, 200, 200)';
+    canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
+    canvasContext.lineWidth = 5;
+    canvasContext.beginPath();
+
+    let sliceWidth = WIDTH * 1.0 / bufferLength;
+    let x = 0;
+
+    for (let i = 0; i < bufferLength; i++) {
+      let v = dataArray[i] / 128.0;
+      let y = v * HEIGHT / 2;
+
+      if (i === 0) {
+        canvasContext.moveTo(x, y);
+      } else {
+        canvasContext.lineTo(x, y);
+      }
+
+      x += sliceWidth;
+    }
+
+    canvasContext.lineTo(jsCanvas.width, jsCanvas.height / 2);
+    canvasContext.stroke();
+  }
+}
+
+function canvasResize() {
+  let windowInnerWidth = window.innerWidth;
+  let windowInnerHeight = window.innerHeight;
+
+  jsCanvas.setAttribute('width', windowInnerWidth);
+  jsCanvas.setAttribute('height', windowInnerHeight);
+}
+
+jsPlayer.volume = 0.5;
 jsPermissionButton.disabled = false;
 jsRecordButton.disabled = true;
 jsStopButton.disabled = true;
 jsPlaybackButton.disabled = true;
 jsResultButton.disabled = true;
 
+window.addEventListener('resize', canvasResize, false);
+canvasResize();
+
 jsPermissionButton.onclick = function() {
   jsPlayer.src = ''
   if(!stream) {
     navigator.mediaDevices.getUserMedia({
       video: false,
-      audio: true
+      audio: {
+        echoCancellation: true,
+        echoCancellationType: 'system',
+        noiseSuppression: false
+      }
     })
 
     .then(function(audio) {
@@ -281,86 +445,7 @@ jsResultButton.onclick = function() {
   jsResultButton.disabled = true;
   jsRetakeButton.disabled = true;
 
-  let xhr = new XMLHttpRequest();
-  xhr.open('GET', document.getElementById('js-download-link').href, true);
-  xhr.responseType = 'blob';
-  xhr.send();
-  xhr.onload = function() {
-    let myBlob = this.response;
-    let formData = new FormData();
-    formData.append('recording_id', document.getElementById('recording_id').value)
-    formData.append('vocal_data', myBlob, 'vocal.wav');
-    axios.post(document.getElementById('voiceform').action, formData, {
-      headers: {
-        'content-type': 'multipart/form-data',
-      }
-    }).then(response => {
-        let data = response.data
-        window.location.href = data.url
-    }).catch(error => {
-        console.log(error.response)
-    })
-  } 
+  mixing().then(() => {
+    firstXhr();
+  })
 }
-
-let visualize = function(stream) {
-  if (!drawContext) {
-    drawContext = new AudioContext();
-  }
-
-  const source = drawContext.createMediaStreamSource(stream);
-  const analyser = drawContext.createAnalyser();
-  const bufferLength =  analyser.frequencyBinCount;
-  const dataArray = new Uint8Array(bufferLength);
-  
-  analyser.fftSize = 2048;
-  source.connect(analyser);
-  
-  canvasContext = jsCanvas.getContext('2d');
-  draw();
-
-  function draw() {
-    const WIDTH = jsCanvas.width;
-    const HEIGHT = jsCanvas.height;
-
-    requestAnimationFrame(draw);
-
-    analyser.getByteTimeDomainData(dataArray);
-
-    canvasContext.fillStyle = 'rgb(0, 0, 0)';
-    canvasContext.strokeStyle = 'rgb(200, 200, 200)';
-    canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
-    canvasContext.lineWidth = 5;
-    canvasContext.beginPath();
-
-    let sliceWidth = WIDTH * 1.0 / bufferLength;
-    let x = 0;
-
-    for (let i = 0; i < bufferLength; i++) {
-      let v = dataArray[i] / 128.0;
-      let y = v * HEIGHT / 2;
-
-      if (i === 0) {
-        canvasContext.moveTo(x, y);
-      } else {
-        canvasContext.lineTo(x, y);
-      }
-
-      x += sliceWidth;
-    }
-
-    canvasContext.lineTo(jsCanvas.width, jsCanvas.height / 2);
-    canvasContext.stroke();
-  }
-}
-
-let canvasResize =  function() {
-  let windowInnerWidth = window.innerWidth;
-  let windowInnerHeight = window.innerHeight;
-
-  jsCanvas.setAttribute('width', windowInnerWidth);
-  jsCanvas.setAttribute('height', windowInnerHeight);
-}
-
-window.addEventListener('resize', canvasResize, false);
-canvasResize();
