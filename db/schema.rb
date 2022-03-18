@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_17_145158) do
+ActiveRecord::Schema.define(version: 2022_03_18_012245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2022_03_17_145158) do
     t.string "vocal_data"
     t.string "compose_song"
     t.string "score"
-    t.string "comment"
+    t.string "emotion_strength"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["recording_id"], name: "index_results_on_recording_id"

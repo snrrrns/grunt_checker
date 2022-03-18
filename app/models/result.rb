@@ -2,15 +2,15 @@
 #
 # Table name: results
 #
-#  id           :bigint           not null, primary key
-#  comment      :string
-#  compose_song :string
-#  score        :string
-#  uuid         :string           not null
-#  vocal_data   :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  recording_id :bigint           not null
+#  id               :bigint           not null, primary key
+#  compose_song     :string
+#  emotion_strength :string
+#  score            :string
+#  uuid             :string           not null
+#  vocal_data       :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  recording_id     :bigint           not null
 #
 # Indexes
 #
