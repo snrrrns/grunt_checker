@@ -3,7 +3,7 @@
 # Table name: recordings
 #
 #  id            :bigint           not null, primary key
-#  emotion       :integer          default(0), not null
+#  emotion       :integer          default("angry"), not null
 #  example_vocal :string           not null
 #  vocal_style   :string           not null
 #  created_at    :datetime         not null
