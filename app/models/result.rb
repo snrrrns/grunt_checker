@@ -24,4 +24,9 @@ class Result < ApplicationRecord
   belongs_to :recording
   mount_uploader :vocal_data, VocalDataUploader
   mount_uploader :compose_song, ComposeSongUploader
+
+  def score
+    parse = JSON.parse(emotion_strength)
+    parse['emotion_detail'][recording.emotion] * 100
+  end
 end
