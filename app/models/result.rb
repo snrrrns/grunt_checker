@@ -5,7 +5,6 @@
 #  id               :bigint           not null, primary key
 #  compose_song     :string
 #  emotion_strength :string
-#  score            :string
 #  uuid             :string           not null
 #  vocal_data       :string
 #  created_at       :datetime         not null
