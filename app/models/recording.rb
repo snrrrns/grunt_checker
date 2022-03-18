@@ -3,6 +3,7 @@
 # Table name: recordings
 #
 #  id            :bigint           not null, primary key
+#  emotion       :integer          default("angry"), not null
 #  example_vocal :string           not null
 #  vocal_style   :string           not null
 #  created_at    :datetime         not null
@@ -18,4 +19,7 @@ class Recording < ApplicationRecord
 
   validates :vocal_style, presence: true, uniqueness: true
   validates :example_vocal, presence: true
+  validates :emotion, presence: true
+
+  enum emotion: { angry: 0, sad: 10, happy: 20, disgust: 30, surprise: 40, neutral: 50 }
 end

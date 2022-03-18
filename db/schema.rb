@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_15_154604) do
+ActiveRecord::Schema.define(version: 2022_03_18_024130) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2022_03_15_154604) do
     t.string "example_vocal", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "emotion", default: 0, null: false
     t.index ["vocal_style"], name: "index_recordings_on_vocal_style", unique: true
   end
 
@@ -28,8 +29,7 @@ ActiveRecord::Schema.define(version: 2022_03_15_154604) do
     t.string "uuid", null: false
     t.string "vocal_data"
     t.string "compose_song"
-    t.string "score"
-    t.string "comment"
+    t.string "emotion_strength"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["recording_id"], name: "index_results_on_recording_id"

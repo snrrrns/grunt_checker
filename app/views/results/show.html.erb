@@ -1,8 +1,20 @@
-<div class="text-center">
-  <p class="mt-5 mb-2">録音した音声</p>
-  <%= audio_tag("#{@result.vocal_data.url}", controls: true, class: 'mb-5', id: 'js-vocal-player') %>
-  <p class="my-2">演奏と合わせた音声</p>
-  <%= audio_tag("#{@result.compose_song.url}", controls: true, class: 'mb-5', id: 'js-song-player') %>
+<div class="mt-5 text-center">
+  <div class="my-4">
+    <p class="my-2"><%= @display[:score] %>点 / 100点</p>
+    <p class="my-2"><%= @display[:comment] %></p>
+  </div>
+  <div class="row mt-5">
+    <div class="d-flex justify-content-center">
+      <div class="col-3">
+        <p class="mb-3">録音した音声</p>
+        <%= audio_tag("#{@result.vocal_data.url}", controls: true, class: 'mb-5', id: 'js-vocal-player') %>
+      </div>
+      <div class="col-3">
+        <p class="mb-3">演奏と合わせた音声</p>
+        <%= audio_tag("#{@result.compose_song.url}", controls: true, class: 'mb-5', id: 'js-song-player') %>
+      </div>
+    </div>
+  </div>
 </div>
 
 <%= javascript_pack_tag 'common' %>

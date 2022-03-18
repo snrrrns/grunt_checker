@@ -177,7 +177,7 @@ async function mixing() {
   jsAudioInstruments.play();
   originPlay = setTimeout(() => {
     jsAudioOrigin.play();
-  }, 3600);
+  }, 3750);
 
   mixRecorder = new MediaRecorder(mixDestination.stream);
   mixRecorder.start();

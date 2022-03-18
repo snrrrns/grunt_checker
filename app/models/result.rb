@@ -2,15 +2,14 @@
 #
 # Table name: results
 #
-#  id           :bigint           not null, primary key
-#  comment      :string
-#  compose_song :string
-#  score        :string
-#  uuid         :string           not null
-#  vocal_data   :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  recording_id :bigint           not null
+#  id               :bigint           not null, primary key
+#  compose_song     :string
+#  emotion_strength :string
+#  uuid             :string           not null
+#  vocal_data       :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  recording_id     :bigint           not null
 #
 # Indexes
 #
@@ -25,4 +24,9 @@ class Result < ApplicationRecord
   belongs_to :recording
   mount_uploader :vocal_data, VocalDataUploader
   mount_uploader :compose_song, ComposeSongUploader
+
+  def score
+    parse = JSON.parse(emotion_strength)
+    parse['emotion_detail'][recording.emotion] * 100
+  end
 end
