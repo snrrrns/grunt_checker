@@ -5,6 +5,7 @@
 #  id            :bigint           not null, primary key
 #  emotion       :integer          default("angry"), not null
 #  example_vocal :string           not null
+#  vocal_image   :string
 #  vocal_style   :string           not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -16,6 +17,7 @@
 class Recording < ApplicationRecord
   has_many :results, dependent: :delete_all
   mount_uploader :example_vocal, ExampleVocalUploader
+  mount_uploader :vocal_image, VocalImageUploader
 
   validates :vocal_style, presence: true, uniqueness: true
   validates :example_vocal, presence: true
