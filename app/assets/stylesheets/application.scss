@@ -90,12 +90,6 @@ a {
     letter-spacing: 0.1rem;
   }
 
-  &-image {
-    img {
-      width: 100%;
-    }
-  }
-
   .container-fluid {
     max-width: 744px;
   }
@@ -148,8 +142,11 @@ a {
 }
 
 .recording {
-  margin-top: 6vh;
-  margin-bottom: 6vh;
+  margin-top: 4vh;
+  margin-bottom: 2vh;
+  @include media(sp) {
+    margin-bottom: 6vh;
+  }
 
   .container-fluid {
     max-width: 680px;
