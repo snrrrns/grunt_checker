@@ -10,7 +10,7 @@ class ResultDisplayService
         evaluation: 'Keep trying!',
         comment: 'お手本を聴いて再チャレンジ！'
       }
-    elsif @result.score.ceil(0) > 0 && @result.score.ceil(0) < 20
+    elsif @result.score.ceil(0).positive? && @result.score.ceil(0) < 20
       {
         score: @result.score.ceil(0),
         evaluation: 'Keep trying!',
