@@ -20,31 +20,31 @@ class ResultDisplayService
       {
         score: @result.score.ceil(0),
         evaluation: 'OK!',
-        comment: 'もっといけそうです！更に練習してみよう！'
+        comment: 'もっといけそうです！練習してみましょう！'
       }
     elsif @result.score.ceil(0) >= 40 && @result.score.ceil(0) < 60
       {
         score: @result.score.ceil(0),
         evaluation: 'Nice!!',
-        comment: 'いい感じです！更に磨きをかけよう！'
+        comment: 'まずまずです！更に磨きをかけましょう！'
       }
     elsif @result.score.ceil(0) >= 60 && @result.score.ceil(0) < 80
       {
         score: @result.score.ceil(0),
         evaluation: 'Great!!!',
-        comment: 'かなりいい線！バンドのコーラスは担当できそうです！'
+        comment: 'かなりいい感じ！バンドでコーラスを担当できそうです！'
       }
     elsif @result.score.ceil(0) >= 80 && @result.score.ceil(0) < 90
       {
         score: @result.score.ceil(0),
         evaluation: 'Exellent!!!!',
-        comment:'すばらしい！デスボイスでボーカルやれちゃいます！'
+        comment: 'すばらしい！バンドでボーカルやれちゃいます！'
       }
     else
       {
         score: @result.score.ceil(0),
         evaluation: 'Insane!!!!!',
-        comment: '本業の方ですか？さすがです！'
+        comment: '本業の方ですか？恐るべきデスボイス！'
       }
     end
   end
