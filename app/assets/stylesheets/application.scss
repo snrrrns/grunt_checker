@@ -2,6 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Special+Elite&display=swap');
 
+// メディアクエリ
+@mixin media($break) {
+  @if $break == sp {
+    $break: 575px;
+  }
+
+  @media screen and (max-width: $break) {
+    @content;
+  }
+}
+
 // 色の変数
 $main_color_text: #FFF;
 
@@ -53,10 +64,14 @@ a {
 
 .main {
   padding: 64px 0 68px;
+  @include media(sp) {
+    padding-bottom: 132px;
+  }
 }
 
 .top {
   margin-top: 8vh;
+  margin-bottom: 6vh;
 
   &-title {
     img {
@@ -112,6 +127,7 @@ a {
 
 .index {
   margin-top: 10vh;
+  margin-bottom: 6vh;
 
   .card-box {
     a {
@@ -133,6 +149,7 @@ a {
 
 .recording {
   margin-top: 6vh;
+  margin-bottom: 6vh;
 
   .container-fluid {
     max-width: 680px;
@@ -161,7 +178,8 @@ a {
 }
 
 .result {
-  margin-top: 10vh;
+  margin-top: 6vh;
+  margin-bottom: 6vh;
 
   h3 {
     font-family: 'Special Elite';
