@@ -73,6 +73,10 @@ a {
   margin-top: 8vh;
   margin-bottom: 6vh;
 
+  .container-fluid {
+    max-width: 744px;
+  }
+
   &-title {
     img {
       display: inline-block;
@@ -90,13 +94,38 @@ a {
     letter-spacing: 0.1rem;
   }
 
-  .container-fluid {
-    max-width: 744px;
+  &-button {
+    .btn {
+      width: 110px;
+      height: 110px;
+    }
   }
 
-  .btn {
-    width: 110px;
-    height: 110px;
+  .modal {
+    &-body {
+      font-size: 0.9rem;
+    }
+
+    ul {
+      list-style-type: disc;
+
+    }
+
+    li {
+      line-height: 1.5;
+      margin-bottom: 12px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .btn {
+      min-width: 120px;
+      max-width: 160px;
+      border-radius: 19px;
+      font-size: 0.8rem;
+    }
   }
 
   .btn-primary {
