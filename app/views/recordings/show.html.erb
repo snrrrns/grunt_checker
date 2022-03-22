@@ -1,61 +1,81 @@
 <section class="recording">
-  <div class="container-fluid"> 
-    <h1 class="text-center my-4" style="font-size: 1.8rem">録音ページ（仮）</h1>
-    <h2 class="text-center mb-4"><%= @recording.vocal_style %>編</h2>
+  <div class="container-fluid">
+    <div class="d-flex align-items-center flex-column">
+      <h1 class="h4 mb-3">録音する</h1>
+      <div class="fake mb-4"></div>
+    </div>
   </div>
 
   <div class="visualizer">
-    <canvas id="js-canvas"></canvas>
+    <canvas class="w-100" id="js-canvas"></canvas>
   </div>
 
   <div class="container-fluid">
-    <div class="text-center my-3"><span id="js-timer">マイクを許可してください</span></div>
-    <div class="row">
-      <div class="col-6">
-        <div class="controls">
-          <div class="d-flex justify-content-center">
-            <button id="js-permission-button" class="btn btn-warning">マイク許可</button>
-            <button id="js-record-button" class="btn btn-primary d-none">録音開始</button>
-            <button id="js-stop-button" class="btn btn-danger d-none">録音停止</button>
-            <button id="js-playback-button" class="btn btn-success d-none">音声再生</button>
+    <p class="text-center mt-4 mb-3"><span id="js-timer">マイクを許可してください</span></p>
+    <div id="js-main-area">
+      <div class="row">
+        <div class="col-6">
+          <div class="controls">
+            <div class="d-flex justify-content-center">
+              <button id="js-permission-button" class="btn btn-warning">マイク許可</button>
+              <button id="js-record-button" class="btn btn-primary d-none">録音開始</button>
+              <button id="js-stop-button" class="btn btn-danger d-none">録音停止</button>
+              <button id="js-playback-button" class="btn btn-success d-none">音声再生</button>
+            </div>
           </div>
-        </div>
-      </div> 
+        </div> 
 
-      <div class="col-6">
-        <div class="controls">
-          <div class="d-flex justify-content-center">
-            <button id="js-example-button" class="btn btn-success">お手本再生</button>
+        <div class="col-6">
+          <div class="controls">
+            <div class="d-flex justify-content-center">
+              <button id="js-example-button" class="btn btn-success">お手本再生</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="sound-clips my-3">
-      <div class="d-flex justify-content-center">
-        <audio id="js-player" controls></audio>
-        <a id="js-download-link" type="hidden"></a>
-        <a id="js-mix-link" type="hidden"></a>
-        <%= link_to('', @recording.example_vocal.url, id: 'js-example-vocal-link', type: 'hidden') %>
+      <div class="sound-clips my-2">
+        <div class="d-flex justify-content-center">
+          <audio id="js-player" controls></audio>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center flex-column mt-3">
+        <button id="js-result-button" class="btn btn-primary mt-1 d-none">判定結果</button>
+        <button id="js-retake-button" class="btn btn-danger mt-2 d-none">やり直す</button>
       </div>
     </div>
 
-    <%= audio_tag('growl_inst.wav', id: 'js-audio-instruments') %>
-    <audio id="js-audio-origin"></audio>
-
-    <div class="d-flex justify-content-center">
-      <button id="js-result-button" class="btn btn-primary d-none">判定結果</button>
-    </div>
-    <%= form_with url: recording_results_path(@recording), id: "voiceform", local: true do |f| %>
-      <%= f.hidden_field :recording_id, :value => @recording.id %>
-      <%= f.hidden_field :vocal_data %>
-      <%= f.hidden_field :compose_song %>
-    <% end %>
-
-    <div class="d-flex justify-content-center">
-      <button id="js-retake-button" class="btn btn-danger my-3 d-none">やり直す</button>
+    <div class="d-flex justify-content-center d-none" id="js-spinner">
+      <div class="sk-fading-circle">
+        <div class="sk-circle1 sk-circle"></div>
+        <div class="sk-circle2 sk-circle"></div>
+        <div class="sk-circle3 sk-circle"></div>
+        <div class="sk-circle4 sk-circle"></div>
+        <div class="sk-circle5 sk-circle"></div>
+        <div class="sk-circle6 sk-circle"></div>
+        <div class="sk-circle7 sk-circle"></div>
+        <div class="sk-circle8 sk-circle"></div>
+        <div class="sk-circle9 sk-circle"></div>
+        <div class="sk-circle10 sk-circle"></div>
+        <div class="sk-circle11 sk-circle"></div>
+        <div class="sk-circle12 sk-circle"></div>
+      </div>
     </div>
   </div>
+
+  <%= audio_tag('growl_inst.wav', id: 'js-audio-instruments') %>
+  <audio id="js-audio-origin"></audio>
+
+  <%= link_to('', @recording.example_vocal.url, id: 'js-example-vocal-link', type: 'hidden') %>
+  <a id="js-download-link" type="hidden"></a>
+  <a id="js-mix-link" type="hidden"></a>
+
+  <%= form_with url: recording_results_path(@recording), id: "voiceform", local: true do |f| %>
+    <%= f.hidden_field :recording_id, :value => @recording.id %>
+    <%= f.hidden_field :vocal_data %>
+    <%= f.hidden_field :compose_song %>
+  <% end %>
 </section>
 
 <%= javascript_pack_tag 'voice' %>
