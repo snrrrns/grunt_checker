@@ -18,6 +18,8 @@ const jsAudioOrigin = document.getElementById('js-audio-origin');
 const jsMixLink = document.getElementById('js-mix-link');
 const jsTimer = document.getElementById('js-timer');
 const jsCanvas = document.getElementById('js-canvas');
+const jsMainArea = document.getElementById('js-main-area');
+const jsSpinner = document.getElementById('js-spinner');
 
 let audioData = [];
 let bufferSize = 1024;
@@ -44,7 +46,7 @@ let canvasContext = null;
 let drawContext = null;
 
 function stanbyMessage() {
-  jsTimer.innerHTML = '録音開始をクリックすると4カウントが始まり、その後に録音されます(最大5秒)';
+  jsTimer.innerHTML = '録音開始を押すと始まる4カウントの後に歌ってみましょう！(最大5秒)';
 }
 
 function readyMessage() {
@@ -57,6 +59,15 @@ function nowRecordingMessage() {
 
 function doneMessage() {
   jsTimer.innerHTML = '録音完了！';
+}
+
+function loadingMessage() {
+  jsTimer.innerHTML = '読み込み中...'
+  jsTimer.classList.add('blink');
+}
+
+function judgeMessage() {
+  jsTimer.innerHTML = '測定中...'
 }
 
 function fourCount() {
@@ -442,10 +453,19 @@ jsRetakeButton.onclick = function() {
 
 jsResultButton.onclick = function() {
   jsPlayer.src = '';
+
+  jsPlaybackButton.disabled = true;
+  jsExampleButton.disabled = true;
   jsResultButton.disabled = true;
   jsRetakeButton.disabled = true;
 
+  jsMainArea.classList.add('d-none');
+  jsSpinner.classList.remove('d-none');
+
+  loadingMessage();
+
   mixing().then(() => {
+    judgeMessage();
     firstXhr();
   })
 }
