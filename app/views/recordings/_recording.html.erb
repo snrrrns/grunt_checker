@@ -4,7 +4,8 @@
       <div class="card bg-dark shadow fadeup">
         <%= image_tag(recording.vocal_image.url, class: 'card-img-top') %>
         <div class="card-body text-center">
-          <h2><%= recording.vocal_style %></h2>
+          <h2 class="h5"><%= recording.vocal_style %></h2>
+          <small class="text-muted text-nowrap"><%= recording.summary %></small>
         </div>
       </div>
     <% end %>
