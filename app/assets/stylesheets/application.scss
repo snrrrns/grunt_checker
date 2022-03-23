@@ -47,6 +47,7 @@ a {
   .bg-dark {
     --bs-bg-opacity: 0.3;
     background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+    backdrop-filter: blur(3px);
   }
 
   .navbar-brand {
@@ -239,6 +240,7 @@ a {
   .bg-dark {
     --bs-bg-opacity: 0.3;
     background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+    backdrop-filter: blur(3px);
   }
 
   .container-fluid {
