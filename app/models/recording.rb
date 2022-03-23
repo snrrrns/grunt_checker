@@ -5,6 +5,7 @@
 #  id            :bigint           not null, primary key
 #  emotion       :integer          default("angry"), not null
 #  example_vocal :string           not null
+#  summary       :string
 #  vocal_image   :string
 #  vocal_style   :string           not null
 #  created_at    :datetime         not null
