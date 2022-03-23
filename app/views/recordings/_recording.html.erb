@@ -1,6 +1,6 @@
 <div class="col-sm-7 col-md-3 col-10">
   <div class="card-box">
-    <%= link_to recording_path(recording) do %>
+    <%= link_to recording_path(recording), data: { turbolinks: false } do %>
       <div class="card bg-dark shadow fadeup">
         <%= image_tag(recording.vocal_image.url, class: 'card-img-top') %>
         <div class="card-body text-center">
