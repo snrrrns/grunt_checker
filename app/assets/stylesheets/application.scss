@@ -262,12 +262,22 @@ a {
   }
 }
 
-.terms {
-  p, li {
+.terms, .policy {
+  p, li, a {
     line-height: 1.5;
     color: rgb(228, 228, 228);
     font-size: 0.9rem;
     padding-left: 3px;
+  }
+
+  a {
+    display: inline-block;
+    text-decoration: underline;
+    opacity: 0.8;
+    &:hover {
+      transition: 0.2s;
+      opacity: 1;
+    }
   }
 }
 
