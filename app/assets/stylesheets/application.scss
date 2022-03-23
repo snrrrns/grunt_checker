@@ -283,6 +283,29 @@ a {
   }
 }
 
+.inquiry {
+  .container-fluid {
+    max-width: 680px;
+  }
+
+  p {
+    line-height: 1.5;
+    color: rgb(228, 228, 228);
+  }
+
+  .btn {
+    min-width: 126px;
+    max-width: 160px;
+    border-radius: 19px;
+    background-color: #1d9bf0;
+    color: $main_color_text;
+    &:hover {
+      transition: 0.2s;
+      background-color: #188CD8;
+    }
+  }
+}
+
 // 下から上へフェードイン
 .fadeup {
   opacity: 0;
