@@ -1,0 +1,16 @@
+ja:
+  static_pages:
+    terms:
+      title: '利用規約'
+    privacy_policy:
+      title: 'プライバシーポリシー'
+    inquiry:
+      title: 'お問い合わせ'
+  recordings:
+    index:
+      title: 'ステージ選択'
+    show:
+      title: '録音する'
+  results:
+    show:
+      title: '測定結果'
