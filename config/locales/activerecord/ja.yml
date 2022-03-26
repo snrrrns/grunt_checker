@@ -1,0 +1,32 @@
+ja:
+  activerecord:
+    models:
+      recording: 'レコーディング'
+      result: '結果'
+    attributes:
+      recording:
+        vocal_style: デスボイスの種類
+        example_vocal: 'お手本ボーカル'
+        emotion: '感情'
+        vocal_image: 'イメージ画像'
+        summary: '概要'
+      result:
+        uuid: 'UUID'
+        vocal_data: '元の音声'
+        compose_song: '演奏と合わせた音声'
+        emotion_strength: '感情の強さ'
+        recording: '録音条件'
+  attributes:
+    id: 'ID'
+    create_at: '作成日時'
+    updated_at: '更新日時'
+  enums:
+    recording:
+      emotion:
+        angry: '怒り'
+        sad: '悲しみ'
+        happy: '幸福'
+        disgust: '嫌悪'
+        surprise: '驚き'
+        neutral: '平穏'
+        fear: '恐怖'
