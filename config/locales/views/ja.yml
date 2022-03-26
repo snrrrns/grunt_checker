@@ -11,6 +11,16 @@ ja:
       title: 'ステージ選択'
     show:
       title: '録音する'
+      how_to: '遊び方'
+      permission: 'マイク許可'
+      record_start: '録音開始'
+      record_stop: '録音停止'
+      vocal_play: '音声再生'
+      example_play: 'お手本再生'
+      to_result_page: '判定結果'
+      retake: 'やり直す'
   results:
     show:
       title: '測定結果'
+      to_recordings_page: 'ステージ選択へ'
+      to_top_page: 'TOPへ'

@@ -3,13 +3,13 @@
     <div class="container-fluid">
       <ul class="row">
         <li class="col-sm-4 p-2">
-          <%= link_to '利用規約', terms_path, data: { turbolinks: false } %>
+          <%= link_to t('static_pages.terms.title'), terms_path, data: { turbolinks: false } %>
         </li>
         <li class="col-sm-4 p-2">
-          <%= link_to 'プライバシーポリシー', privacy_policy_path, data: { turbolinks: false } %>
+          <%= link_to t('static_pages.privacy_policy.title'), privacy_policy_path, data: { turbolinks: false } %>
         </li>
         <li class="col-sm-4 p-2">
-          <%= link_to 'お問い合わせ', inquiry_path, data: { turbolinks: false } %>
+          <%= link_to t('static_pages.inquiry.title'), inquiry_path, data: { turbolinks: false } %>
         </li>
       </ul>
       <p class="mt-2">&copy; 2022 Grunt Checker</p>
