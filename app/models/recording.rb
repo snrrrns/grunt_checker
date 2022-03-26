@@ -24,5 +24,5 @@ class Recording < ApplicationRecord
   validates :example_vocal, presence: true
   validates :emotion, presence: true
 
-  enum emotion: { angry: 0, sad: 10, happy: 20, disgust: 30, surprise: 40, neutral: 50 }
+  enum emotion: { angry: 0, sad: 10, happy: 20, disgust: 30, surprise: 40, neutral: 50, fear: 60 }
 end
