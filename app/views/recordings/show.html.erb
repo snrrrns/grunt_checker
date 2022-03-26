@@ -18,10 +18,10 @@
         <div class="col-6">
           <div class="controls">
             <div class="d-flex justify-content-center">
-              <button id="js-permission-button" class="btn btn-warning">マイク許可</button>
-              <button id="js-record-button" class="btn btn-primary d-none">録音開始</button>
-              <button id="js-stop-button" class="btn btn-danger d-none">録音停止</button>
-              <button id="js-playback-button" class="btn btn-success d-none">音声再生</button>
+              <button id="js-permission-button" class="btn btn-warning"><%= t('.permission') %></button>
+              <button id="js-record-button" class="btn btn-primary d-none"><%= t('.record_start') %></button>
+              <button id="js-stop-button" class="btn btn-danger d-none"><%= t('.record_stop') %></button>
+              <button id="js-playback-button" class="btn btn-success d-none"><%= t('.vocal_play') %></button>
             </div>
           </div>
         </div> 
@@ -29,7 +29,7 @@
         <div class="col-6">
           <div class="controls">
             <div class="d-flex justify-content-center">
-              <button id="js-example-button" class="btn btn-success">お手本再生</button>
+              <button id="js-example-button" class="btn btn-success"><%= t('.example_play') %></button>
             </div>
           </div>
         </div>
@@ -42,8 +42,8 @@
       </div>
 
       <div class="d-flex align-items-center flex-column mt-3">
-        <button id="js-result-button" class="btn btn-primary mt-1 d-none">判定結果</button>
-        <button id="js-retake-button" class="btn btn-danger mt-2 d-none">やり直す</button>
+        <button id="js-result-button" class="btn btn-primary mt-1 d-none"><%= t('.to_result_page') %></button>
+        <button id="js-retake-button" class="btn btn-danger mt-2 d-none"><%= t('.retake') %></button>
       </div>
     </div>
 
