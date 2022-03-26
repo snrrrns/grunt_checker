@@ -13,6 +13,7 @@ class ResultsController < ApplicationController
       url: url,
       payload: {
         multipart: true,
+        api_key: ENV['API_KEY'],
         voice_data: vocal
       },
       content_type: 'audio/wav'
