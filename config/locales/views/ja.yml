@@ -1,5 +1,11 @@
 ja:
   static_pages:
+    top:
+      sub_title: 'デスボイス測定アプリ'
+      catchcopy: 'SHOW ME YOUR VOKILL!!!!'
+      start: 'はじめる'
+      caution: '注意事項'
+      agree: '了解'
     terms:
       title: '利用規約'
     privacy_policy:
