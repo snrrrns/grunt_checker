@@ -10,6 +10,7 @@ ja:
         emotion: '感情'
         vocal_image: 'イメージ画像'
         summary: '概要'
+        embed_identifier: 'Youtubeの埋め込みID'
       result:
         uuid: 'UUID'
         vocal_data: '元の音声'

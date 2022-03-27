@@ -20,7 +20,7 @@ class RecordingsController < ApplicationController
   private
 
   def recording_params
-    params.require(:recording).permit(:vocal_style, :summary, :vocal_image, :example_vocal)
+    params.require(:recording).permit(:vocal_style, :summary, :vocal_image, :example_vocal, :embed_identifier)
   end
 
   def set_recording

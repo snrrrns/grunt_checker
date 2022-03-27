@@ -2,14 +2,15 @@
 #
 # Table name: recordings
 #
-#  id            :bigint           not null, primary key
-#  emotion       :integer          default("angry"), not null
-#  example_vocal :string           not null
-#  summary       :string
-#  vocal_image   :string
-#  vocal_style   :string           not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id               :bigint           not null, primary key
+#  embed_identifier :string
+#  emotion          :integer          default("angry"), not null
+#  example_vocal    :string           not null
+#  summary          :string
+#  vocal_image      :string
+#  vocal_style      :string           not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 # Indexes
 #

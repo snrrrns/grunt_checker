@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_23_020413) do
+ActiveRecord::Schema.define(version: 2022_03_27_155333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2022_03_23_020413) do
     t.integer "emotion", default: 0, null: false
     t.string "vocal_image"
     t.string "summary"
+    t.string "embed_identifier"
     t.index ["vocal_style"], name: "index_recordings_on_vocal_style", unique: true
   end
 
