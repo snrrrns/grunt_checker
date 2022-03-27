@@ -3,7 +3,15 @@
   <div class="container-fluid">
     <div class="d-flex align-items-center flex-column">
       <h1 class="h4 mb-3"><%= t('.title') %></h1>
-      <div class="fake mb-4"></div>
+      <div class="fake mb-3"></div>
+
+      <div class="help ms-auto me-4 mb-2">
+        <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <i class="fa-solid fa-circle-question pe-1"></i><small><%= t('.how_to') %></small>
+        </a>
+        <%= render 'how_to_modal', recording: @recording %>
+      </div>
+      
     </div>
   </div>
 
@@ -12,7 +20,7 @@
   </div>
 
   <div class="container-fluid">
-    <p class="text-center mt-4 mb-3"><span id="js-timer">マイクを許可してください</span></p>
+    <p class="text-center my-3"><span id="js-timer">マイクを許可してください</span></p>
     <div id="js-main-area">
       <div class="row">
         <div class="col-6">
