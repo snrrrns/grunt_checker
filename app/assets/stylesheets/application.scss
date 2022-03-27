@@ -97,47 +97,23 @@ a {
     .btn {
       width: 110px;
       height: 110px;
-    }
-  }
+      background-color: #b40000;
+      border-color: #b8003a;
+      color: $main_color_text;
 
-  .modal {
-    &-body {
-      font-size: 0.9rem;
-    }
-
-    li {
-      line-height: 1.5;
-      margin-bottom: 10px;
-
-      &:last-child {
-        margin-bottom: 0;
+      &:hover {
+        background-color: #b82828;
+        border-color: #af2121;
       }
-    }
 
-    .btn {
-      min-width: 120px;
-      max-width: 160px;
-      border-radius: 19px;
-      font-size: 0.8rem;
-    }
-  }
+      &:focus {
+        box-shadow: 0 0 0 0.25rem rgba(235, 133, 133, 0.514);
+      }
 
-  .btn-primary {
-    background-color: #b40000;
-    border-color: #b8003a;
-
-    &:hover {
-      background-color: #b82828;
-      border-color: #af2121;
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 0.25rem rgba(235, 133, 133, 0.514);
-    }
-
-    &:active {
-      background-color: #f03636;
-      border-color: #c52b2b;
+      &:active {
+        background-color: #f03636;
+        border-color: #c52b2b;
+      }
     }
   }
 }
@@ -180,6 +156,17 @@ a {
     background-color: #000;
   }
 
+  .help {
+    a {
+      opacity: 0.6;
+
+      &:hover {
+        transition: 0.2s;
+        opacity: 1;
+      }
+    }
+  }
+
   .controls {
     padding-bottom: 0.7rem;
   }
@@ -210,27 +197,24 @@ a {
     min-width: 140px;
     max-width: 160px;
     border-radius: 19px;
+    color: $main_color_text;
+    background-color: #b40000;
+    border-color: #b8003a;
 
-    &-primary {
-      background-color: #b40000;
-      border-color: #b8003a;
-  
-      &:hover {
-        background-color: #b82828;
-        border-color: #af2121;
-      }
-  
-      &:focus {
-        box-shadow: 0 0 0 0.25rem rgba(235, 133, 133, 0.514);
-      }
-  
-      &:active {
-        background-color: #f03636;
-        border-color: #c52b2b;
-      }
+    &:hover {
+      background-color: #b82828;
+      border-color: #af2121;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 0.25rem rgba(235, 133, 133, 0.514);
+    }
+
+    &:active {
+      background-color: #f03636;
+      border-color: #c52b2b;
     }
   }
-  
 }
 
 .footer {
@@ -273,7 +257,6 @@ a {
   }
 
   a {
-    display: inline-block;
     text-decoration: underline;
     opacity: 0.8;
     &:hover {
@@ -299,9 +282,53 @@ a {
     border-radius: 19px;
     background-color: #1d9bf0;
     color: $main_color_text;
+
     &:hover {
       transition: 0.2s;
       background-color: #188CD8;
+    }
+  }
+}
+
+.modal {
+  &-body {
+    font-size: 0.9rem;
+  }
+
+  p {
+    line-height: 1.5;
+  }
+
+  li {
+    line-height: 1.5;
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .btn {
+    min-width: 120px;
+    max-width: 140px;
+    border-radius: 19px;
+    font-size: 0.8rem;
+    background-color: #b40000;
+    border-color: #b8003a;
+    color: $main_color_text;
+
+    &:hover {
+      background-color: #b82828;
+      border-color: #af2121;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 0.25rem rgba(235, 133, 133, 0.514);
+    }
+
+    &:active {
+      background-color: #f03636;
+      border-color: #c52b2b;
     }
   }
 }

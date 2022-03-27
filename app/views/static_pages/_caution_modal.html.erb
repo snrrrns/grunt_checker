@@ -1,0 +1,32 @@
+<div class="modal text-dark fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h5 class="h6 modal-title" id="exampleModalLabel"><%= t('defaults.caution') %></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-3">
+        <ul class="ps-3">
+          <li>
+            このサービスは現在PCでのみ利用可能です。<br>
+            スマートフォンからはご利用いただけません。
+          </li>
+          <li>
+            対応ブラウザはGoogle Chromeのみとなっております。
+          </li>
+          <li>
+            このサービスではマイクを使用し、音が鳴ります。周囲の環境には十分ご配慮ください。
+          </li>
+          <li>
+            "了解"を押した時点で、利用規約・プライバシーポリシーに同意したものとします。
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer p-2">
+        <%= link_to recordings_path, class: 'm-0', data: { turbolinks: false } do %>
+          <button type="button" class="btn"><%= t('defaults.agree') %></button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="modal fade text-dark" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title h4 fw-bold" id="exampleModalLabel"><%= t('recordings.show.how_to') %></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container w-75 mx-auto">
+          <div class="mb-5">
+            <h6 class="h5 fw-bold">1. マイク許可</h6>
+            <%= image_tag('step_1.png', class: 'w-100 my-2') %>
+            <p>まずはマイクを許可しましょう！</p>
+          </div>
+
+          <div class="my-5">
+            <h6 class="h5 fw-bold">2. お手本を聴いてみる</h6>
+            <%= image_tag('step_2.png', class: 'w-100 my-2') %>
+            <p>選択したステージのお手本ボーカルを聴くことができます。参考にしてみましょう！</p>
+          </div>
+
+          <div class="my-5">
+            <h6 class="h5 fw-bold">3. 録音する</h6>
+            <%= image_tag('step_3.png', class: 'w-100 my-2') %>
+            <p>録音開始を押すと4回カウントが鳴りはじめます。<br>
+            カウントのリズムに合わせて4回鳴り終わるタイミングで歌ってみましょう！</p>
+            <p>録音は最大5秒間。途中で録音を停止することも可能です。</p>
+          </div>
+
+          <div class="my-5">
+            <h6 class="h5 fw-bold">4. 録音後の操作</h6>
+            <%= image_tag('step_4.png', class: 'w-100 my-2') %>
+            <p>① 録音した音声を再生することができます。</p>
+            <p>② 測定が始まり、完了すると自動的に結果のページに進みます。（少し時間がかかります）</p>
+            <p>③ 録音を取り消し、最初からやり直します。</p>
+          </div>
+
+          <div class="my-5">
+            <h6 class="h4 fw-bold">歌う時の注意点</h6>
+            <ol class="ms-1 ps-4">
+              <li>歌い過ぎないようにしましょう。少しでも喉に違和感を感じたら休憩すること。</li>
+              <li>以下のような歌い方は喉を痛めるので控えましょう。</li>
+              <ul class="ms-1 ps-2">
+                <li>喉に力を入れ過ぎる</li>
+                <li>息を多量に送り込み過ぎる</li>
+                <li>咳をするように声を絞り出す</li>
+              </ul>
+            </ol>
+          </div>
+
+          <div class="my-5">
+            <p class="mb-2 fw-bold">以下の動画で<%= recording.vocal_style %>の出し方を学んでみよう！</p>
+            <%= content_tag :iframe, nil, width: '800', height: '450', src: "https://www.youtube.com/embed/#{recording.embed_identifier}", frameborder: 0, gesture: 'media', allow: 'encrypted-media', allowfullscreen: true %>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-bs-dismiss="modal"><%= t('defaults.close') %></button>
+      </div>
+    </div>
+  </div>
+</div>
