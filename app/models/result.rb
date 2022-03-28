@@ -3,10 +3,10 @@
 # Table name: results
 #
 #  id               :bigint           not null, primary key
-#  compose_song     :string
-#  emotion_strength :string
+#  compose_song     :string           not null
+#  emotion_strength :string           not null
 #  uuid             :string           not null
-#  vocal_data       :string
+#  vocal_data       :string           not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  recording_id     :bigint           not null

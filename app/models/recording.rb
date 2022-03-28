@@ -3,11 +3,11 @@
 # Table name: recordings
 #
 #  id               :bigint           not null, primary key
-#  embed_identifier :string
+#  embed_identifier :string           not null
 #  emotion          :integer          default("angry"), not null
 #  example_vocal    :string           not null
-#  summary          :string
-#  vocal_image      :string
+#  summary          :string           not null
+#  vocal_image      :string           not null
 #  vocal_style      :string           not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null

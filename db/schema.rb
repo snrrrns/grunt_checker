@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_27_155333) do
+ActiveRecord::Schema.define(version: 2022_03_28_073935) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,18 +21,18 @@ ActiveRecord::Schema.define(version: 2022_03_27_155333) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "emotion", default: 0, null: false
-    t.string "vocal_image"
-    t.string "summary"
-    t.string "embed_identifier"
+    t.string "vocal_image", null: false
+    t.string "summary", null: false
+    t.string "embed_identifier", null: false
     t.index ["vocal_style"], name: "index_recordings_on_vocal_style", unique: true
   end
 
   create_table "results", force: :cascade do |t|
     t.bigint "recording_id", null: false
     t.string "uuid", null: false
-    t.string "vocal_data"
-    t.string "compose_song"
-    t.string "emotion_strength"
+    t.string "vocal_data", null: false
+    t.string "compose_song", null: false
+    t.string "emotion_strength", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["recording_id"], name: "index_results_on_recording_id"
