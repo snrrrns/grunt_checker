@@ -25,6 +25,11 @@ class Result < ApplicationRecord
   mount_uploader :vocal_data, VocalDataUploader
   mount_uploader :compose_song, ComposeSongUploader
 
+  validates :uuid, presence: true, uniqueness: true
+  validates :vocal_data, presence: true
+  validates :compose_song, presence: true
+  validates :emotion_strength, presence: true
+
   def score
     parse = JSON.parse(emotion_strength)
     parse['emotion_detail'][recording.emotion] * 100

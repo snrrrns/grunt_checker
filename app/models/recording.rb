@@ -24,6 +24,9 @@ class Recording < ApplicationRecord
   validates :vocal_style, presence: true, uniqueness: true
   validates :example_vocal, presence: true
   validates :emotion, presence: true
+  validates :vocal_image, presence: true
+  validates :summary, presence: true, length: { maximum: 255 }
+  validates :embed_identifier, presence: true
 
   enum emotion: { angry: 0, sad: 10, happy: 20, disgust: 30, surprise: 40, neutral: 50, fear: 60 }
 end
