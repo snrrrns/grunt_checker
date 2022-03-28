@@ -1,5 +1,5 @@
 class RecordingsController < ApplicationController
-  before_action :set_recording, only: %i[show update]
+  before_action :set_recording, only: %i[show]
 
   def index
     @recordings = Recording.all
