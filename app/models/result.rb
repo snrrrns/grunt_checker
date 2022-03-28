@@ -3,10 +3,10 @@
 # Table name: results
 #
 #  id               :bigint           not null, primary key
-#  compose_song     :string
-#  emotion_strength :string
+#  compose_song     :string           not null
+#  emotion_strength :string           not null
 #  uuid             :string           not null
-#  vocal_data       :string
+#  vocal_data       :string           not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  recording_id     :bigint           not null
@@ -24,6 +24,11 @@ class Result < ApplicationRecord
   belongs_to :recording
   mount_uploader :vocal_data, VocalDataUploader
   mount_uploader :compose_song, ComposeSongUploader
+
+  validates :uuid, presence: true, uniqueness: true
+  validates :vocal_data, presence: true
+  validates :compose_song, presence: true
+  validates :emotion_strength, presence: true
 
   def score
     parse = JSON.parse(emotion_strength)
