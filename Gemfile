@@ -34,6 +34,7 @@ gem 'carrierwave-audio'
 gem 'fog-aws'
 gem 'dotenv-rails'
 gem 'rest-client'
+gem 'devise'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
