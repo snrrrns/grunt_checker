@@ -13,6 +13,7 @@ AllCops:
     - 'bin/**/*'
     - 'spec/**/*'
     - 'node_modules/**/*'
+    - 'app/services/result_display_service.rb'
   DisplayCopNames: true
 
 Style/AsciiComments:
@@ -41,7 +42,7 @@ Naming/AccessorMethodName:
     - "app/controllers/**/*"
 
 Metrics/LineLength:
-  Max: 120
+  Max: 160
   IgnoredPatterns: ['\A#']
   Exclude:
     - "db/migrate/*.rb"
