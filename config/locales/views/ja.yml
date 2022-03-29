@@ -3,6 +3,7 @@ ja:
     caution: '注意事項'
     agree: '了解'
     close: '閉じる'
+    logout: 'ログアウト'
   static_pages:
     top:
       sub_title: 'デスボイス測定アプリ'
@@ -15,6 +16,8 @@ ja:
     inquiry:
       title: 'お問い合わせ'
   recordings:
+    new:
+      title: 'ステージ新規登録'
     index:
       title: 'ステージ選択'
     show:
@@ -27,6 +30,8 @@ ja:
       example_play: 'お手本再生'
       to_result_page: '判定結果'
       retake: 'やり直す'
+    edit:
+      title: 'ステージ編集'
   results:
     show:
       title: '測定結果'
