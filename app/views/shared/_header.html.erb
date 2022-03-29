@@ -6,6 +6,12 @@
       <% else %>
         <%= link_to image_tag('header_logo.png', class: 'navbar-brand', data: { turbolinks: false }), root_path %>
       <% end %>
+
+      <% if user_signed_in? %>
+        <% if current_user == @user || current_user.admin? %>
+          <%= link_to t('defaults.logout'), destroy_user_session_path, method: :delete %>
+        <% end %>
+      <% end %>
     </div>
   </nav>
 </header>
