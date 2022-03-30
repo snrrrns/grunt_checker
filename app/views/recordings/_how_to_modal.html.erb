@@ -50,7 +50,9 @@
 
           <div class="my-5">
             <p class="mb-2 fw-bold">以下の動画で<%= recording.vocal_style %>の出し方を学んでみよう！</p>
-            <%= content_tag :iframe, nil, width: '800', height: '450', src: "https://www.youtube.com/embed/#{recording.embed_identifier}", frameborder: 0, gesture: 'media', allow: 'encrypted-media', allowfullscreen: true %>
+            <div class="embed">
+              <%= content_tag :iframe, nil, width: '800', height: '450', src: "https://www.youtube.com/embed/#{recording.embed_identifier}", frameborder: 0, gesture: 'media', allow: 'encrypted-media', allowfullscreen: true %>
+            </div>
           </div>
         </div>
       </div>

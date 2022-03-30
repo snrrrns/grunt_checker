@@ -16,11 +16,14 @@
       <div class="d-flex justify-content-center mt-5">
         <div class="row">
           <div class="col-md-6 col-offset-10">
-            <p class="mb-3"><%= Result.human_attribute_name(:vocal_data) %></p>
+            <p class="mt-1 mb-4"><%= Result.human_attribute_name(:vocal_data) %></p>
             <%= audio_tag("#{@result.vocal_data.url}", controls: true, class: 'mb-5', id: 'js-vocal-player') %>
           </div>
           <div class=" col-md-6 col-offset-10">
-            <p class="mb-3"><%= Result.human_attribute_name(:compose_song) %></p>
+            <div class="mb-2">
+              <p class="mb-2"><%= Result.human_attribute_name(:compose_song) %></p>
+              <p class="opacity-75" style="font-size: 0.75rem;">※PC版Google Chromeのみ再生可</p>
+            </div>
             <%= audio_tag("#{@result.compose_song.url}", controls: true, class: 'mb-5', id: 'js-song-player') %>
           </div>
         </div>
