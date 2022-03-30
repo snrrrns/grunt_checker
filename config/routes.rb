@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get '/privacy_policy', to: 'static_pages#privacy_policy'
   get '/inquiry', to: 'static_pages#inquiry'
 
-  resources :recordings, only: %i[new create index show edit update] do
+  resources :recordings, except: %i[destroy] do
     resources :results, param: :uuid, only: %i[show create], shallow: true
   end
 end
