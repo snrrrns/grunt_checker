@@ -36,7 +36,6 @@ let mixContext = null;
 let mixDestination = null;
 let srcInstruments = null;
 let srcOrigin = null;
-let originPlay = null;
 let mixRecorder = null;
 let mixData = [];
 let mixUrl = null;
@@ -50,7 +49,7 @@ function stanbyMessage() {
 }
 
 function readyMessage() {
-  jsTimer.innerHTML = 'Ready...'
+  jsTimer.innerHTML = 'Ready...';
 }
 
 function nowRecordingMessage() {
@@ -62,12 +61,12 @@ function doneMessage() {
 }
 
 function loadingMessage() {
-  jsTimer.innerHTML = '読み込み中...'
+  jsTimer.innerHTML = '読み込み中...';
   jsTimer.classList.add('blink');
 }
 
 function judgeMessage() {
-  jsTimer.innerHTML = '測定中...'
+  jsTimer.innerHTML = '測定中...';
 }
 
 function fourCount() {
@@ -98,14 +97,14 @@ function onAudioProcess(e) {
   for (let i = 0; i < bufferSize; i++) {
     bufferData[i] = input[i];
   }
-  audioData.push(bufferData)
+  audioData.push(bufferData);
 }
 
 function saveAudio() {
   exportWAV(audioData);
   jsDownloadLink.download = 'recorded.wav';
   audioContext.close().then(function() {
-  })
+  });
 }
 
 function exportWAV(audioData) {
@@ -146,15 +145,15 @@ function exportWAV(audioData) {
   let mergeBuffers = function (audioData) {
     let sampleLength = 0;
     for(let i = 0; i < audioData.length; i++) {
-        sampleLength += audioData[i].length;
+      sampleLength += audioData[i].length;
     }
     let samples = new Float32Array(sampleLength);
     let sampleIdx = 0;
     for(let i = 0; i < audioData.length; i++) {
-        for(let j = 0; j < audioData[i].length; j++) {
-            samples[sampleIdx] = audioData[i][j];
-            sampleIdx++;
-        }
+      for(let j = 0; j < audioData[i].length; j++) {
+        samples[sampleIdx] = audioData[i][j];
+        sampleIdx++;
+      }
     }
     return samples;
   };
@@ -168,7 +167,7 @@ function exportWAV(audioData) {
   let url = myURL.createObjectURL(audioBlob);
   jsDownloadLink.href = url;
   jsAudioOrigin.src = url;
-};
+}
 
 async function mixing() {
   console.log('ミックス開始');
@@ -177,16 +176,16 @@ async function mixing() {
 
   srcOrigin = mixContext.createMediaElementSource(jsAudioOrigin);
   srcInstruments = mixContext.createMediaElementSource(jsAudioInstruments);
-  
+
   gainNode = mixContext.createGain();
   gainNode.gain.value = gainValue;
-  
+
   srcInstruments.connect(gainNode);
   srcInstruments.connect(mixDestination);
   srcOrigin.connect(mixDestination);
-  
+
   jsAudioInstruments.play();
-  originPlay = setTimeout(() => {
+  setTimeout(() => {
     jsAudioOrigin.play();
   }, 3750);
 
@@ -210,7 +209,7 @@ function completeMixing() {
     mixUrl = window.URL.createObjectURL(e.data);
     jsMixLink.href = mixUrl;
     jsMixLink.download = 'mix.webm';
-  }
+  };
   mixRecorder.stop();
   srcInstruments.disconnect(gainNode);
   srcInstruments.disconnect(mixDestination);
@@ -226,7 +225,7 @@ function firstXhr() {
   xhr1.onload = function() {
     let vocalBlob = this.response;
     secondXhr(vocalBlob);
-  }
+  };
 }
 
 function secondXhr(vocalBlob) {
@@ -245,12 +244,12 @@ function secondXhr(vocalBlob) {
         'content-type': 'multipart/form-data',
       }
     }).then(response => {
-      let data = response.data
-      window.location.href = data.url
+      let data = response.data;
+      window.location.href = data.url;
     }).catch(error => {
-      console.log(error.responce)
-    })
-  }
+      console.log(error.responce);
+    });
+  };
 }
 
 function visualize(stream) {
@@ -323,7 +322,7 @@ window.addEventListener('resize', canvasResize, false);
 canvasResize();
 
 jsPermissionButton.onclick = function() {
-  jsPlayer.src = ''
+  jsPlayer.src = '';
   if(!stream) {
     navigator.mediaDevices.getUserMedia({
       video: false,
@@ -333,21 +332,20 @@ jsPermissionButton.onclick = function() {
         noiseSuppression: false
       }
     })
+      .then(function(audio) {
+        jsPermissionButton.classList.add('d-none');
+        jsRecordButton.classList.remove('d-none');
 
-    .then(function(audio) {
-      jsPermissionButton.classList.add('d-none');
-      jsRecordButton.classList.remove('d-none');
+        stream = audio;
+        visualize(stream);
+        console.log('録音可能です');
+        return stream;
+      })
 
-      stream = audio;
-      visualize(stream);
-      console.log('録音可能です');
-      return stream;
-    })
-
-    .catch(function(error) {
-      console.error('mediaDevide.getUserMedia() error:', error);
-      return;
-    })
+      .catch(function(error) {
+        console.error('mediaDevide.getUserMedia() error:', error);
+        return;
+      });
   }
 
   stanbyMessage();
@@ -356,10 +354,10 @@ jsPermissionButton.onclick = function() {
   jsStopButton.disabled = true;
   jsPlaybackButton.disabled = true;
   jsResultButton.disabled = true;
-}
+};
 
 jsRecordButton.onclick = function() {
-  jsPlayer.src = ''
+  jsPlayer.src = '';
   
   jsRecordButton.disabled = true;
   jsStopButton.disabled = false;
@@ -405,7 +403,7 @@ jsRecordButton.onclick = function() {
       console.log('停止しました');
     });
   }, 2000);
-}
+};
 
 jsStopButton.onclick = function() {
   jsStopButton.classList.add('d-none');
@@ -419,7 +417,7 @@ jsStopButton.onclick = function() {
   jsPlaybackButton.disabled = false;
   jsResultButton.disabled = false;
   jsExampleButton.disabled = false;
-}
+};
 
 jsPlaybackButton.onclick = function() {
   if(micBlobUrl) {
@@ -427,19 +425,19 @@ jsPlaybackButton.onclick = function() {
     jsPlayer.onended = function() {
       jsPlayer.pause();
       jsPlayer.src = '';
-    }
+    };
     jsPlayer.play();
   }
-}
+};
 
 jsExampleButton.onclick = function() {
   jsPlayer.src = jsExampleVocalLink.href;
   jsPlayer.onended = function() {
     jsPlayer.pause();
-    jsPlayer.src = ''
-  }
+    jsPlayer.src = '';
+  };
   jsPlayer.play();
-}
+};
 
 jsRetakeButton.onclick = function() {
   jsPlayer.src = '';
@@ -449,7 +447,7 @@ jsRetakeButton.onclick = function() {
   jsRecordButton.classList.remove('d-none');
 
   stanbyMessage();
-}
+};
 
 jsResultButton.onclick = function() {
   jsPlayer.src = '';
@@ -467,5 +465,5 @@ jsResultButton.onclick = function() {
   mixing().then(() => {
     judgeMessage();
     firstXhr();
-  })
-}
+  });
+};
