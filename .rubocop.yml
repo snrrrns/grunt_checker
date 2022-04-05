@@ -49,7 +49,7 @@ Metrics/LineLength:
 
 Metrics/MethodLength:
   CountComments: false
-  Max: 20
+  Max: 25
 
 Metrics/AbcSize:
   Max: 30
