@@ -10,7 +10,7 @@ module ApplicationHelper
       icon: image_url('favicon.ico'),
 
       og: {
-        title: :title,
+        title: :site,
         description: :description,
         type: 'website',
         url: 'https://www.gruntchecker.com',
