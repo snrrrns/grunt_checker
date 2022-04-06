@@ -21,4 +21,42 @@
       </div>
     </div>
   </div>
+
+  <div class="top-overview d-flex align-items-center flex-column justify-content-center">
+    <h1 class="h4 fw-bold mb-3"><%= t('.overview') %></h1>
+    <div class="fake mb-3"></div>
+    <div class="row justify-content-evenly mt-2 js-fade-in scroll-fadeup">
+      <div class="col-8 col-sm-7 col-md-5 col-lg-4 my-4">
+        <div class="card-box">
+          <div class="card bg-dark">
+            <%= image_tag('mic_image.jpg', class: 'card-img-top') %>
+            <div class="card-body">
+              <h2 class="h5 text-center mb-3"><%= t('.scoring') %></h2>
+              <div class="d-flex flex-column" style="height: 100px">
+                <p>音声をブラウザ上で録音し、AIによる感情分析で採点！</p>
+                <p class="mt-auto ms-auto pe-2"><small class="text-muted">※ 品質を保証するものではありません</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-8 col-sm-7 col-md-5 col-lg-4 my-4">
+        <div class="card-box">
+          <div class="card bg-dark">
+            <%= image_tag('band_image.jpg', class: 'card-img-top') %>
+            <div class="card-body">
+              <h2 class="h5 text-center mb-3"><%= t('.fusion_with_instruments') %></h2>
+              <div class="d-flex flex-column" style="height: 100px">
+                <p>バンドに合わせて歌っているような体験ができます！</p>
+                <p class="mt-auto ms-auto pe-2"><small class="text-muted">※ 現在PC版Google Chromeのみ対応</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
+
+<%= javascript_pack_tag 'top' %>
