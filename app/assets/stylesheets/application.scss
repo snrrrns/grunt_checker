@@ -116,6 +116,21 @@ a {
       }
     }
   }
+
+  &-overview {
+    margin-top: 50px;
+    margin-bottom: 80px;
+
+    .card {
+      min-height: 350px;
+    }
+
+    p {
+      line-height: 1.5;
+      font-size: 0.9rem;
+    }
+  }
+
 }
 
 .index {
@@ -347,7 +362,7 @@ a {
   }
 }
 
-// 下から上へフェードイン
+// 読み込みしたら即時下から上へフェードイン
 .fadeup {
   opacity: 0;
   animation-name: fadeup;
@@ -365,6 +380,22 @@ a {
       opacity: 1;
       transform: translateY(0);
   }
+}
+
+// スクロールしたら下から上へフェードイン
+.js-fade-in {
+  opacity: 0;
+  transition-duration: 1.0s;
+  transition-property: opacity, transform;
+}
+
+.scroll-fadeup {
+  transform: translate(0, 20px);
+}
+
+.scroll-in {
+  opacity: 1;
+  transform: translate(0, 0);
 }
 
 // 読み込み中のアニメーション

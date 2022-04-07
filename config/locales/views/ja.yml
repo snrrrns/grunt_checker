@@ -9,6 +9,9 @@ ja:
       sub_title: 'デスボイス測定アプリ'
       catchcopy: 'SHOW ME YOUR VOKILL!!!!'
       start: 'はじめる'
+      overview: '出来ること'
+      scoring: 'デスボイスの測定'
+      fusion_with_instruments: 'デスボイスを演奏と融合'
     terms:
       title: '利用規約'
     privacy_policy:
