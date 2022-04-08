@@ -29,9 +29,13 @@
         </div>
       </div>
 
-      <div class="d-flex justify-content-center flex-column align-items-center">
-        <%= link_to t('.to_recordings_page'), recordings_path, class: 'btn mb-3' %>
-        <%= link_to t('.to_top_page'), root_path, class: 'btn', data: { turbolinks: false } %>
+      <%= link_to "https://twitter.com/share?url=#{request.protocol}#{request.host}&hashtags=GruntChecker&text=【#{@result.recording.vocal_style}】に挑戦しました！%0a%0a結果は… #{@display[:score]}点/100点でした！%0a#{@display[:comment]}%0a%0a↓デスボイスに挑戦してみる%0a", class: 'btn btn-twitter mb-4', target: '_blank', rel: 'noopener noreferrer' do %>
+        <i class="fab fa-twitter pe-1"></i><%= t('.share_to_twitter') %>
+      <% end %>
+
+      <div class="d-flex justify-content-center align-items-center mb-4">
+        <%= link_to t('.to_recordings_page'), recordings_path, class: 'btn mx-2' %>
+        <%= link_to t('.to_top_page'), root_path, class: 'btn mx-2', data: { turbolinks: false } %>
       </div>
     </div>
   </div>

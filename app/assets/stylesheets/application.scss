@@ -58,6 +58,10 @@ a {
     display: inline-block;
     width: 222px;
     height: 46px;
+    @include media(sp) {
+      width: 177px;
+      height: 37px;
+    }
   }
 }
 
@@ -79,7 +83,7 @@ a {
   &-title {
     img {
       display: inline-block;
-      max-width: 95%
+      max-width: 95%;
     }
   }
 
@@ -228,11 +232,9 @@ a {
     border-radius: 19px;
     color: $main_color_text;
     background-color: #b40000;
-    border-color: #b8003a;
 
     &:hover {
       background-color: #b82828;
-      border-color: #af2121;
     }
 
     &:focus {
@@ -241,7 +243,18 @@ a {
 
     &:active {
       background-color: #f03636;
-      border-color: #c52b2b;
+    }
+
+    &-twitter {
+      background-color: #1d9bf0;
+
+      &:hover {
+        background-color: #188CD8;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+      }
     }
   }
 }
