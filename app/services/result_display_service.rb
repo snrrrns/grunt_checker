@@ -8,19 +8,19 @@ class ResultDisplayService
       {
         score: (@result.created_at.strftime('%S')[1].to_i).ceil(0),
         evaluation: 'Keep trying!',
-        comment: 'お手本を聴いて再チャレンジ！'
+        comment: '残念！練習して再チャレンジ！'
       }
     elsif @result.score.ceil(0).positive? && @result.score.ceil(0) < 20
       {
         score: @result.score.ceil(0),
         evaluation: 'Keep trying!',
-        comment: 'お手本を聴いて再チャレンジ！'
+        comment: '残念！練習して再チャレンジ！'
       }
     elsif @result.score.ceil(0) >= 20 && @result.score.ceil(0) < 40
       {
         score: @result.score.ceil(0),
         evaluation: 'OK!',
-        comment: 'もっといけそうです！練習してみましょう！'
+        comment: 'もっといけそうです！その調子で練習を重ねましょう！'
       }
     elsif @result.score.ceil(0) >= 40 && @result.score.ceil(0) < 60
       {
