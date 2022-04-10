@@ -381,7 +381,7 @@ DEPENDENCIES
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 4.1.0)
-  webdrivers (~> 5.0)
+  webdrivers
   webpacker (~> 5.0)
 
 RUBY VERSION
