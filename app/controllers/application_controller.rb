@@ -8,6 +8,6 @@ class ApplicationController < ActionController::Base
     return unless /\.herokuapp.com/.match?(request.host)
 
     port = ":#{request.port}" unless [80, 443].include?(request.port)
-    redirect_to "#{request.protocol}#{FQDN}#{port}#{port}#{request.path}", status: :moved_permanently
+    redirect_to "#{request.protocol}#{FQDN}#{port}#{request.path}", status: :moved_permanently
   end
 end
