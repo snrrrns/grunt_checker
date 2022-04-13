@@ -73,7 +73,7 @@
     </div>
   </div>
 
-  <%= audio_tag('growl_inst.mp3', id: 'js-audio-instruments') %>
+  <%= audio_tag("instruments_#{@recording.id}.mp3", id: 'js-audio-instruments') %>
   <audio id="js-audio-origin"></audio>
 
   <%= link_to('', @recording.example_vocal.url, id: 'js-example-vocal-link', type: 'hidden') %>
