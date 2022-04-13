@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, skip: %i[registrations]
+  devise_for :users, skip: %i[registrations password]
   root 'static_pages#top'
   get '/terms', to: 'static_pages#terms'
   get '/privacy_policy', to: 'static_pages#privacy_policy'
