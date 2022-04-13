@@ -4,10 +4,8 @@
     <div class="d-flex align-items-center flex-column justify-content-center my-3">
       <h1 class="h4 mb-3"><%= t('.title') %></h1>
       <div class="fake mb-5"></div>
-      <div class="row w-100 mt-2">
-        <div class="d-flex justify-content-center">
-          <%= render @recordings %>
-        </div>
+      <div class="row justify-content-evenly mt-2">
+        <%= render @recordings %>
       </div>
     </div>
   </div>
