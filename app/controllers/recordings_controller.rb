@@ -4,7 +4,7 @@ class RecordingsController < ApplicationController
   before_action :admin_scan, only: %i[create update]
 
   def index
-    @recordings = Recording.all
+    @recordings = Recording.all.order(created_at: :asc)
   end
 
   def new
