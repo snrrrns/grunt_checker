@@ -34,6 +34,7 @@
       <% end %>
 
       <div class="d-flex justify-content-center align-items-center mb-4">
+        <%= link_to t('.retry'), recording_path(@result.recording_id), class: 'btn mx-2' %>
         <%= link_to t('.to_recordings_page'), recordings_path, class: 'btn mx-2' %>
         <%= link_to t('.to_top_page'), root_path, class: 'btn mx-2', data: { turbolinks: false } %>
       </div>
