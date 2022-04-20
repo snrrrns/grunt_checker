@@ -33,7 +33,6 @@ gem 'carrierwave', '~> 2.0'
 gem 'fog-aws'
 gem 'dotenv-rails'
 gem 'rest-client'
-gem 'devise'
 gem 'meta-tags'
 
 group :development, :test do
