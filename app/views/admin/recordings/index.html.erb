@@ -1,0 +1,24 @@
+<% content_for(:title, t('.title')) %>
+<div class="container mb-5 pt-2">
+  <h1><%= t('.title') %></h1>
+  
+  <%= link_to t('defaults.new'), new_admin_recording_path, class: 'btn btn-primary my-3' %>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col"><%= Recording.human_attribute_name(:id) %></th>
+          <th scope="col"><%= Recording.human_attribute_name(:vocal_style) %></th>
+          <th scope="col"><%= Recording.human_attribute_name(:summary) %></th>
+          <th scope="col"><%= Recording.human_attribute_name(:created_at) %></th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+          <%= render @recordings %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

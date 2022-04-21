@@ -1,0 +1,36 @@
+<% content_for(:title, t('.title')) %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+      <h1><%= t '.title' %></h1>
+      <%= form_with model: @recording, url: admin_recording_path(@recording), local: true do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+        <div class="form-group">
+          <%= f.label :vocal_style %>
+          <%= f.text_field :vocal_style, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :summary %>
+          <%= f.text_field :summary, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :example_vocal %>
+          <%= f.file_field :example_vocal, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :vocal_image %>
+          <%= f.file_field :vocal_image, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :emotion %>
+          <%= f.select :emotion,  Recording.emotions_i18n.invert, {}, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :embed_identifier %>
+          <%= f.text_field :embed_identifier, class: 'form-control' %>
+        </div>
+        <%= f.submit class: 'btn btn-primary' %>
+      <% end %>
+    </div>
+  </div>
+</div>
