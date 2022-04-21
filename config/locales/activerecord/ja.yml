@@ -1,8 +1,9 @@
 ja:
   activerecord:
     models:
-      recording: 'レコーディング'
+      recording: 'ステージ'
       result: '結果'
+      user: 'ユーザー'
     attributes:
       recording:
         vocal_style: デスボイスの種類
@@ -17,9 +18,12 @@ ja:
         compose_song: '演奏と合わせた音声'
         emotion_strength: '感情の強さ'
         recording: '録音条件'
+      user:
+        email: 'メールアドレス'
+        password: 'パスワード'
   attributes:
     id: 'ID'
-    create_at: '作成日時'
+    created_at: '作成日時'
     updated_at: '更新日時'
   enums:
     recording:
