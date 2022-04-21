@@ -3,7 +3,21 @@ ja:
     caution: '注意事項'
     agree: '了解'
     close: '閉じる'
+    login: 'ログイン'
     logout: 'ログアウト'
+    new: '新規作成'
+    show: '詳細'
+    edit: '編集'
+    delete: '削除'
+    message:
+      require_login: 'ログインしてください'
+      not_authorized: '権限がありません'
+      created: "%{item}を作成しました"
+      not_created: "%{item}を作成できませんでした"
+      updated: "%{item}を更新しました"
+      not_updated: "%{item}を更新できませんでした"
+      deleted: "%{item}を削除しました"
+      delete_confirm: '削除しますか？'
   static_pages:
     top:
       sub_title: 'デスボイス測定アプリ'
@@ -42,3 +56,24 @@ ja:
       to_top_page: 'TOPへ'
       retry: 'もう一度挑戦'
       share_to_twitter: '結果をシェア'
+  admin:
+    user_sessions:
+      new:
+        title: 'ログイン'
+      create:
+        success: 'ログインしました'
+        fail: 'ログインに失敗しました'
+      destroy:
+        success: 'ログアウトしました'
+    dashboards:
+      index:
+        title: 'ダッシュボード'
+    recordings:
+      index:
+        title: 'ステージ一覧'
+      new:
+        title: '新規ステージ作成'
+      show:
+        title: 'ステージ詳細'
+      edit:
+        title: 'ステージ編集'

@@ -1,0 +1,19 @@
+<tr>
+  <td>
+    <%= recording.id %>
+  </td>
+  <td>
+    <%= recording.vocal_style %>
+  </td>
+  <td>
+    <%= recording.summary %>
+  </td>
+  <td>
+    <%= l recording.created_at, format: :long %>
+  </td>
+  <td>
+    <%= link_to t('defaults.show'), admin_recording_path(recording), class: 'btn btn-info' %>
+    <%= link_to t('defaults.edit'), edit_admin_recording_path(recording), class: 'btn btn-success' %>
+    <%= link_to t('defaults.delete'), admin_recording_path(recording), method: :delete, data: { confirm: t('defaults.message.delete_confirm') }, class: 'btn btn-danger' %>
+  </td>
+</tr>

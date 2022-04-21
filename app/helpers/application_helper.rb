@@ -24,4 +24,10 @@ module ApplicationHelper
       }
     }
   end
+
+  def page_title(page_title = '')
+    base_title = 'Grunt Checker（管理画面）'
+
+    page_title.empty? ? base_title : "#{page_title} | #{base_title}"
+  end
 end

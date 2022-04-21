@@ -1,0 +1,50 @@
+<% content_for(:title, t('.title')) %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+      <h1><%= t('.title') %></h1>
+      <div class="text-right mb-3">
+        <%= link_to t('defaults.edit'), edit_admin_recording_path(@recording), class: 'btn btn-success' %>
+        <%= link_to t('defaults.delete'), admin_recording_path(@recording), method: :delete, data: { confirm: t('defaults.message.delete_confirm') }, class: 'btn btn-danger' %>
+      </div>
+      <table class="table table-bordered bg-white">
+        <tr>
+          <th scope="row"><%= Recording.human_attribute_name(:id) %></th>
+          <td><%= @recording.id %></td>
+        </tr>
+        <tr>
+          <th scope="row"><%= Recording.human_attribute_name(:vocal_style) %></th>
+          <td><%= @recording.vocal_style %></td>
+        </tr>
+        <tr>
+          <th scope="row"><%= Recording.human_attribute_name(:summary) %></th>
+          <td><%= @recording.summary %></td>
+        </tr>
+        <tr>
+          <th scope="row"><%= Recording.human_attribute_name(:example_vocal) %></th>
+          <td>
+            <%= audio_tag("#{@recording.example_vocal.url}", controls: true) %>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row"><%= Recording.human_attribute_name(:vocal_image) %></th>
+          <td>
+            <%= image_tag(@recording.vocal_image.url) %>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row"><%= Recording.human_attribute_name(:emotion) %></th>
+          <td><%= @recording.emotion_i18n %></td>
+        </tr>
+        <tr>
+          <th scope="row"><%= Recording.human_attribute_name(:embed_identifier) %></th>
+          <td><%= @recording.embed_identifier %></td>
+        </tr>
+        <tr>
+          <th scope="row"><%= Recording.human_attribute_name(:created_at) %></th>
+          <td><%= l @recording.created_at, format: :long %></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
