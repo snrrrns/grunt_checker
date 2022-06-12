@@ -6,20 +6,9 @@ class ResultsController < ApplicationController
   end
 
   def create
-    url = ENV['API_URL']
-    vocal = File.new(params[:vocal_data])
-    response = RestClient::Request.execute(
-      method: :post,
-      url: url,
-      payload: {
-        multipart: true,
-        api_key: ENV['API_KEY'],
-        voice_data: vocal
-      },
-      content_type: 'audio/wav'
-    )
-
-    result = Result.create(result_params.merge(uuid: SecureRandom.uuid, emotion_strength: response.body))
+    result = Result.new(result_params.merge(uuid: SecureRandom.uuid))
+    result.vocal_params = params[:vocal_data]
+    result.save!
     render json: { url: result_path(result.uuid) }
   end
 
