@@ -1,6 +1,8 @@
 # Grunt Checker - デスボイス測定アプリ
 [![Rails](https://img.shields.io/badge/Rails-v6.1.4.4-CC0000)](https://rubygems.org/gems/rails/versions/6.1.4.4)
 
+※ 現在サービス公開停止中です
+
 ![gruntchecker_ogp](https://raw.githubusercontent.com/snrrrns/grunt_checker/main/app/assets/images/ogp.png)
 
 ## サービス概要
