@@ -1,4 +1,5 @@
 import CountIn from './components/count_in'
+import Message from './components/massage'
 import axios from 'axios';
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers['X-CSRF-TOKEN'] = document.getElementsByName('csrf-token')[0].getAttribute('content');
@@ -16,10 +17,11 @@ const jsExampleVocalLink = document.getElementById('js-example-vocal-link');
 const jsAudioInstruments = document.getElementById('js-audio-instruments');
 const jsAudioOrigin = document.getElementById('js-audio-origin');
 const jsMixLink = document.getElementById('js-mix-link');
-const jsTimer = document.getElementById('js-timer');
 const jsCanvas = document.getElementById('js-canvas');
 const jsMainArea = document.getElementById('js-main-area');
 const jsSpinner = document.getElementById('js-spinner');
+
+const message = new Message();
 
 let audioData = [];
 let bufferSize = 1024;
@@ -43,31 +45,6 @@ let gainNode = null;
 let gainValue = 0.9;
 let canvasContext = null;
 let drawContext = null;
-
-function stanbyMessage() {
-  jsTimer.innerHTML = '録音開始を押すと始まる4カウントの後に歌ってみましょう！(最大5秒)';
-}
-
-function readyMessage() {
-  jsTimer.innerHTML = 'Ready...';
-}
-
-function nowRecordingMessage() {
-  jsTimer.innerHTML = '録音中！終了まであと5秒';
-}
-
-function doneMessage() {
-  jsTimer.innerHTML = '録音完了！';
-}
-
-function loadingMessage() {
-  jsTimer.innerHTML = '読み込み中...';
-  jsTimer.classList.add('blink');
-}
-
-function judgeMessage() {
-  jsTimer.innerHTML = '測定中...';
-}
 
 function onAudioProcess(e) {
   let input = e.inputBuffer.getChannelData(0);
@@ -326,7 +303,7 @@ jsPermissionButton.onclick = function() {
       });
   }
 
-  stanbyMessage();
+  message.standby();
   jsPermissionButton.disabled = true;
   jsRecordButton.disabled = false;
   jsStopButton.disabled = true;
@@ -342,7 +319,7 @@ jsRecordButton.onclick = function() {
   jsPlaybackButton.disabled = true;
   jsExampleButton.disabled = true;
 
-  readyMessage();
+  message.setReady();
   const countdown = new CountIn();
   countdown.start();
 
@@ -359,12 +336,11 @@ jsRecordButton.onclick = function() {
     scriptProcessor.onaudioprocess = onAudioProcess;
     scriptProcessor.connect(audioContext.destination);
 
-    nowRecordingMessage();
-    let sec = 4;
+    message.recordingStart();
+    let remainingTime = 4;
     countDownTime = setInterval(() => {
-      let remainingTime = sec--;
-      let string = `録音中！終了まであと${remainingTime}秒`;
-      jsTimer.innerHTML = string;
+      let sec = remainingTime--;
+      message.recordingInProgress(sec);
       if (sec === 0) {
         clearInterval(countDownTime);
       }
@@ -378,7 +354,7 @@ jsRecordButton.onclick = function() {
       clearInterval(countDownTime);
       clearTimeout(timeout);
       clearTimeout(recStart);
-      doneMessage();
+      message.completeRecording();
       console.log('停止しました');
     });
   }, 2000);
@@ -425,7 +401,7 @@ jsRetakeButton.onclick = function() {
   jsPlaybackButton.classList.add('d-none');
   jsRecordButton.classList.remove('d-none');
 
-  stanbyMessage();
+  message.standby();
 };
 
 jsResultButton.onclick = function() {
@@ -439,10 +415,10 @@ jsResultButton.onclick = function() {
   jsMainArea.classList.add('d-none');
   jsSpinner.classList.remove('d-none');
 
-  loadingMessage();
+  message.mixingInProgress();
 
   mixing().then(() => {
-    judgeMessage();
+    message.analysisResult();
     firstXhr();
   });
 };
