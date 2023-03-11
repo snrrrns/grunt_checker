@@ -24,8 +24,10 @@ const jsSpinner = document.getElementById('js-spinner');
 const message = new Message();
 const audioVisualizer = new AudioVisualizer();
 
+const BUFFER_SIZE = 1024;
+const GAIN_VALUE = 0.9;
+
 let audioData = [];
-let bufferSize = 1024;
 let stream = null;
 let audioContext = null;
 let audioSampleRate = null;
@@ -43,12 +45,12 @@ let mixRecorder = null;
 let mixData = [];
 let mixUrl = null;
 let gainNode = null;
-let gainValue = 0.9;
+
 
 function onAudioProcess(e) {
-  let input = e.inputBuffer.getChannelData(0);
-  let bufferData = new Float32Array(bufferSize);
-  for (let i = 0; i < bufferSize; i++) {
+  const input = e.inputBuffer.getChannelData(0);
+  const bufferData = new Float32Array(BUFFER_SIZE);
+  for (let i = 0; i < BUFFER_SIZE; i++) {
     bufferData[i] = input[i];
   }
   audioData.push(bufferData);
@@ -62,17 +64,17 @@ function saveAudio() {
 }
 
 function exportWAV(audioData) {
-  let encodeWAV = function(samples, sampleRate) {
-    let buffer = new ArrayBuffer(44 + samples.length * 2);
-    let view = new DataView(buffer);
+  const encodeWAV = (samples, sampleRate) => {
+    const buffer = new ArrayBuffer(44 + samples.length * 2);
+    const view = new DataView(buffer);
 
-    let writeString = function(view, offset, string) {
+    const writeString = (view, offset, string) => {
       for(let i = 0; i < string.length; i++) {
         view.setUint8(offset + i, string.charCodeAt(i));
       }
     };
 
-    let floatTo16BitPCM = function(output, offset, input) {
+    const floatTo16BitPCM = (output, offset, input) => {
       for(let i = 0; i < input.length; i++, offset += 2) {
         let s = Math.max(-1, Math.min(1, input[i]));
         output.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
@@ -96,12 +98,12 @@ function exportWAV(audioData) {
     return view;
   };
 
-  let mergeBuffers = function (audioData) {
+  const mergeBuffers = (audioData) => {
     let sampleLength = 0;
     for(let i = 0; i < audioData.length; i++) {
       sampleLength += audioData[i].length;
     }
-    let samples = new Float32Array(sampleLength);
+    const samples = new Float32Array(sampleLength);
     let sampleIdx = 0;
     for(let i = 0; i < audioData.length; i++) {
       for(let j = 0; j < audioData[i].length; j++) {
@@ -112,13 +114,13 @@ function exportWAV(audioData) {
     return samples;
   };
 
-  let dataview = encodeWAV(mergeBuffers(audioData), audioSampleRate);
-  let audioBlob = new Blob([dataview], { type: 'audio/wav' });
+  const dataview = encodeWAV(mergeBuffers(audioData), audioSampleRate);
+  const audioBlob = new Blob([dataview], { type: 'audio/wav' });
   micBlobUrl = window.URL.createObjectURL(audioBlob);
   console.log(dataview);
 
-  let myURL = window.URL || window.webkitURL;
-  let url = myURL.createObjectURL(audioBlob);
+  const myURL = window.URL || window.webkitURL;
+  const url = myURL.createObjectURL(audioBlob);
   jsDownloadLink.href = url;
   jsAudioOrigin.src = url;
 }
@@ -132,7 +134,7 @@ async function mixing() {
   srcInstruments = mixContext.createMediaElementSource(jsAudioInstruments);
 
   gainNode = mixContext.createGain();
-  gainNode.gain.value = gainValue;
+  gainNode.gain.value = GAIN_VALUE;
 
   srcInstruments.connect(gainNode);
   srcInstruments.connect(mixDestination);
@@ -172,24 +174,24 @@ function completeMixing() {
 }
 
 function firstXhr() {
-  let xhr1 = new XMLHttpRequest();
+  const xhr1 = new XMLHttpRequest();
   xhr1.open('GET', jsDownloadLink.href, true);
   xhr1.responseType = 'blob';
   xhr1.send();
   xhr1.onload = function() {
-    let vocalBlob = this.response;
+    const vocalBlob = this.response;
     secondXhr(vocalBlob);
   };
 }
 
 function secondXhr(vocalBlob) {
-  let xhr2 = new XMLHttpRequest();
+  const xhr2 = new XMLHttpRequest();
   xhr2.open('GET', jsMixLink.href, true);
   xhr2.responseType = 'blob';
   xhr2.send();
   xhr2.onload = function() {
-    let mixBlob = this.response;
-    let formData = new FormData();
+    const mixBlob = this.response;
+    const formData = new FormData();
     formData.append('recording_id', document.getElementById('recording_id').value);
     formData.append('vocal_data', vocalBlob, 'vocal.wav');
     formData.append('compose_song', mixBlob, 'song.webm');
@@ -198,7 +200,7 @@ function secondXhr(vocalBlob) {
         'content-type': 'multipart/form-data',
       }
     }).then(response => {
-      let data = response.data;
+      const data = response.data;
       window.location.href = data.url;
     }).catch(error => {
       console.log(error.responce);
@@ -272,7 +274,7 @@ jsRecordButton.onclick = function() {
     audioData = [];
     audioContext = new AudioContext();
     audioSampleRate = audioContext.sampleRate;
-    scriptProcessor = audioContext.createScriptProcessor(bufferSize, 2, 2);
+    scriptProcessor = audioContext.createScriptProcessor(BUFFER_SIZE, 2, 2);
     mediaStreamSource = audioContext.createMediaStreamSource(stream);
     mediaStreamSource.connect(scriptProcessor);
     scriptProcessor.onaudioprocess = onAudioProcess;
