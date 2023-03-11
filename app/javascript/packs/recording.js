@@ -320,8 +320,8 @@ jsRecordButton.onclick = function() {
   jsExampleButton.disabled = true;
 
   message.setReady();
-  const countdown = new CountIn();
-  countdown.start();
+  const countIn = new CountIn();
+  countIn.start();
 
   recStart = setTimeout(() => {
     jsRecordButton.classList.add('d-none');
