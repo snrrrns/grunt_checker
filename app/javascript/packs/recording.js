@@ -1,5 +1,6 @@
 import CountIn from './components/count_in'
 import Message from './components/massage'
+import AudioVisualizer from "./components/audio_visualizer";
 import axios from 'axios';
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers['X-CSRF-TOKEN'] = document.getElementsByName('csrf-token')[0].getAttribute('content');
@@ -17,11 +18,11 @@ const jsExampleVocalLink = document.getElementById('js-example-vocal-link');
 const jsAudioInstruments = document.getElementById('js-audio-instruments');
 const jsAudioOrigin = document.getElementById('js-audio-origin');
 const jsMixLink = document.getElementById('js-mix-link');
-const jsCanvas = document.getElementById('js-canvas');
 const jsMainArea = document.getElementById('js-main-area');
 const jsSpinner = document.getElementById('js-spinner');
 
 const message = new Message();
+const audioVisualizer = new AudioVisualizer();
 
 let audioData = [];
 let bufferSize = 1024;
@@ -43,8 +44,6 @@ let mixData = [];
 let mixUrl = null;
 let gainNode = null;
 let gainValue = 0.9;
-let canvasContext = null;
-let drawContext = null;
 
 function onAudioProcess(e) {
   let input = e.inputBuffer.getChannelData(0);
@@ -207,65 +206,6 @@ function secondXhr(vocalBlob) {
   };
 }
 
-function visualize(stream) {
-  if (!drawContext) {
-    drawContext = new AudioContext();
-  }
-
-  const source = drawContext.createMediaStreamSource(stream);
-  const analyser = drawContext.createAnalyser();
-  const bufferLength =  analyser.frequencyBinCount;
-  const dataArray = new Uint8Array(bufferLength);
-
-  analyser.fftSize = 2048;
-  source.connect(analyser);
-
-  canvasContext = jsCanvas.getContext('2d');
-  draw();
-
-  function draw() {
-    const WIDTH = jsCanvas.width;
-    const HEIGHT = jsCanvas.height;
-
-    requestAnimationFrame(draw);
-
-    analyser.getByteTimeDomainData(dataArray);
-
-    canvasContext.fillStyle = 'rgb(0, 0, 0)';
-    canvasContext.strokeStyle = 'rgb(200, 200, 200)';
-    canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
-    canvasContext.lineWidth = 5;
-    canvasContext.beginPath();
-
-    let sliceWidth = WIDTH * 1.0 / bufferLength;
-    let x = 0;
-
-    for (let i = 0; i < bufferLength; i++) {
-      let v = dataArray[i] / 128.0;
-      let y = v * HEIGHT / 2;
-
-      if (i === 0) {
-        canvasContext.moveTo(x, y);
-      } else {
-        canvasContext.lineTo(x, y);
-      }
-
-      x += sliceWidth;
-    }
-
-    canvasContext.lineTo(jsCanvas.width, jsCanvas.height / 2);
-    canvasContext.stroke();
-  }
-}
-
-function canvasResize() {
-  let windowInnerWidth = window.innerWidth;
-  let windowInnerHeight = window.innerHeight;
-
-  jsCanvas.setAttribute('width', windowInnerWidth);
-  jsCanvas.setAttribute('height', windowInnerHeight);
-}
-
 jsPlayer.volume = 0.5;
 jsPermissionButton.disabled = false;
 jsRecordButton.disabled = true;
@@ -273,8 +213,10 @@ jsStopButton.disabled = true;
 jsPlaybackButton.disabled = true;
 jsResultButton.disabled = true;
 
-window.addEventListener('resize', canvasResize, false);
-canvasResize();
+window.addEventListener('resize', () => {
+  audioVisualizer.resize()
+}, false);
+audioVisualizer.resize();
 
 jsPermissionButton.onclick = function() {
   jsPlayer.src = '';
@@ -292,7 +234,7 @@ jsPermissionButton.onclick = function() {
         jsRecordButton.classList.remove('d-none');
 
         stream = audio;
-        visualize(stream);
+        audioVisualizer.startVisualization(stream);
         console.log('録音可能です');
         return stream;
       })
