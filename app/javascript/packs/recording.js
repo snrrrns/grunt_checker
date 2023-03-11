@@ -21,8 +21,6 @@ const jsCanvas = document.getElementById('js-canvas');
 const jsMainArea = document.getElementById('js-main-area');
 const jsSpinner = document.getElementById('js-spinner');
 
-const countdown = new CountIn();
-
 let audioData = [];
 let bufferSize = 1024;
 let stream = null;
@@ -345,6 +343,7 @@ jsRecordButton.onclick = function() {
   jsExampleButton.disabled = true;
 
   readyMessage();
+  const countdown = new CountIn();
   countdown.start();
 
   recStart = setTimeout(() => {
