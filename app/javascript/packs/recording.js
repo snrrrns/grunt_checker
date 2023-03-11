@@ -1,4 +1,4 @@
-import * as Tone from 'tone';
+import CountIn from './components/count_in'
 import axios from 'axios';
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers['X-CSRF-TOKEN'] = document.getElementsByName('csrf-token')[0].getAttribute('content');
@@ -20,6 +20,8 @@ const jsTimer = document.getElementById('js-timer');
 const jsCanvas = document.getElementById('js-canvas');
 const jsMainArea = document.getElementById('js-main-area');
 const jsSpinner = document.getElementById('js-spinner');
+
+const countdown = new CountIn();
 
 let audioData = [];
 let bufferSize = 1024;
@@ -67,28 +69,6 @@ function loadingMessage() {
 
 function judgeMessage() {
   jsTimer.innerHTML = '測定中...';
-}
-
-function fourCount() {
-  let melodyList = ['G5', 'C5', 'C5', 'C5'];
-  let synth = new Tone.FMSynth({
-    envelope: {
-      attack: 0.015,
-      decay: 0.02,
-      sustain: 0,
-      release: 1
-    }
-  }).toDestination();
-
-  let melody = new Tone.Sequence(setPlay, melodyList).start();
-
-  melody.loop = 1;
-  Tone.Transport.bpm.value = 60;
-  Tone.Transport.start();
-
-  function setPlay(time, note) {
-    synth.triggerAttackRelease(note, '32n', time);
-  }
 }
 
 function onAudioProcess(e) {
@@ -261,10 +241,10 @@ function visualize(stream) {
   const analyser = drawContext.createAnalyser();
   const bufferLength =  analyser.frequencyBinCount;
   const dataArray = new Uint8Array(bufferLength);
-  
+
   analyser.fftSize = 2048;
   source.connect(analyser);
-  
+
   canvasContext = jsCanvas.getContext('2d');
   draw();
 
@@ -365,7 +345,7 @@ jsRecordButton.onclick = function() {
   jsExampleButton.disabled = true;
 
   readyMessage();
-  fourCount();
+  countdown.start();
 
   recStart = setTimeout(() => {
     jsRecordButton.classList.add('d-none');
