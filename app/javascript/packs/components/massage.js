@@ -2,36 +2,35 @@ import { message } from '../utils/recording_dom_elements'
 
 export default class Message {
   constructor() {
-    this.message = message;
-    this.message.innerHTML = 'マイクを許可してください'
+    message.innerHTML = 'マイクを許可してください'
   }
 
   standby() {
-    this.message.innerHTML = '録音開始を押すと始まる4カウントの後に歌ってみましょう！(最大5秒)';
+    message.innerHTML = '録音開始を押すと始まる4カウントの後に歌ってみましょう！(最大5秒)';
   }
 
   setReady() {
-    this.message.innerHTML = 'Ready...';
+    message.innerHTML = 'Ready...';
   }
 
   recordingStart() {
-    this.message.innerHTML = `録音中！終了まであと5秒`
+    message.innerHTML = `録音中！終了まであと5秒`
   }
 
   recordingInProgress(sec) {
-    this.message.innerHTML = `録音中！終了まであと${sec}秒`;
+    message.innerHTML = `録音中！終了まであと${sec}秒`;
   }
 
   completeRecording() {
-    this.message.innerHTML = '録音完了！'
+    message.innerHTML = '録音完了！'
   }
 
   mixingInProgress() {
-    this.message.innerHTML = '読み込み中...';
-    this.message.classList.add('blink');
+    message.innerHTML = '読み込み中...';
+    message.classList.add('blink');
   }
 
   analysisResult() {
-    this.message.innerHTML = '測定中...'
+    message.innerHTML = '測定中...'
   }
 }
