@@ -1,28 +1,13 @@
 import CountIn from './components/count_in'
 import Message from './components/massage'
 import AudioVisualizer from "./components/audio_visualizer";
+import element from "./utils/recording_dom_elements";
 import axios from 'axios';
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers['X-CSRF-TOKEN'] = document.getElementsByName('csrf-token')[0].getAttribute('content');
 
-const jsPermissionButton = document.getElementById('js-permission-button');
-const jsRecordButton = document.getElementById('js-record-button');
-const jsStopButton = document.getElementById('js-stop-button');
-const jsPlaybackButton = document.getElementById('js-playback-button');
-const jsPlayer = document.getElementById('js-player');
-const jsDownloadLink = document.getElementById('js-download-link');
-const jsResultButton = document.getElementById('js-result-button');
-const jsRetakeButton = document.getElementById('js-retake-button');
-const jsExampleButton = document.getElementById('js-example-button');
-const jsExampleVocalLink = document.getElementById('js-example-vocal-link');
-const jsAudioInstruments = document.getElementById('js-audio-instruments');
-const jsAudioOrigin = document.getElementById('js-audio-origin');
-const jsMixLink = document.getElementById('js-mix-link');
-const jsMainArea = document.getElementById('js-main-area');
-const jsSpinner = document.getElementById('js-spinner');
-
-const message = new Message();
-const audioVisualizer = new AudioVisualizer();
+const message = new Message(element.message);
+const audioVisualizer = new AudioVisualizer(element.canvas);
 
 const BUFFER_SIZE = 1024;
 const GAIN_VALUE = 0.9;
@@ -58,7 +43,7 @@ function onAudioProcess(e) {
 
 function saveAudio() {
   exportWAV(audioData);
-  jsDownloadLink.download = 'recorded.wav';
+  element.downloadLink.download = 'recorded.wav';
   audioContext.close().then(function() {
   });
 }
@@ -121,8 +106,8 @@ function exportWAV(audioData) {
 
   const myURL = window.URL || window.webkitURL;
   const url = myURL.createObjectURL(audioBlob);
-  jsDownloadLink.href = url;
-  jsAudioOrigin.src = url;
+  element.downloadLink.href = url;
+  element.audioOrigin.src = url;
 }
 
 async function mixing() {
@@ -130,8 +115,8 @@ async function mixing() {
   mixContext = new AudioContext();
   mixDestination = mixContext.createMediaStreamDestination();
 
-  srcOrigin = mixContext.createMediaElementSource(jsAudioOrigin);
-  srcInstruments = mixContext.createMediaElementSource(jsAudioInstruments);
+  srcOrigin = mixContext.createMediaElementSource(element.audioOrigin);
+  srcInstruments = mixContext.createMediaElementSource(element.audioInstruments);
 
   gainNode = mixContext.createGain();
   gainNode.gain.value = GAIN_VALUE;
@@ -140,9 +125,9 @@ async function mixing() {
   srcInstruments.connect(mixDestination);
   srcOrigin.connect(mixDestination);
 
-  jsAudioInstruments.play();
+  element.audioInstruments.play();
   setTimeout(() => {
-    jsAudioOrigin.play();
+    element.audioOrigin.play();
   }, 3750);
 
   mixRecorder = new MediaRecorder(mixDestination.stream);
@@ -150,7 +135,7 @@ async function mixing() {
 
   await (() => {
     return new Promise(resolve => {
-      jsAudioInstruments.addEventListener('ended', async() => {
+      element.audioInstruments.addEventListener('ended', async() => {
         await completeMixing();
         await resolve();
       }, { once: true });
@@ -163,8 +148,8 @@ function completeMixing() {
     mixData = [];
     mixData.push(e.data);
     mixUrl = window.URL.createObjectURL(e.data);
-    jsMixLink.href = mixUrl;
-    jsMixLink.download = 'mix.webm';
+    element.mixLink.href = mixUrl;
+    element.mixLink.download = 'mix.webm';
   };
   mixRecorder.stop();
   srcInstruments.disconnect(gainNode);
@@ -175,7 +160,7 @@ function completeMixing() {
 
 function firstXhr() {
   const xhr1 = new XMLHttpRequest();
-  xhr1.open('GET', jsDownloadLink.href, true);
+  xhr1.open('GET', element.downloadLink.href, true);
   xhr1.responseType = 'blob';
   xhr1.send();
   xhr1.onload = function() {
@@ -186,7 +171,7 @@ function firstXhr() {
 
 function secondXhr(vocalBlob) {
   const xhr2 = new XMLHttpRequest();
-  xhr2.open('GET', jsMixLink.href, true);
+  xhr2.open('GET', element.mixLink.href, true);
   xhr2.responseType = 'blob';
   xhr2.send();
   xhr2.onload = function() {
@@ -208,20 +193,20 @@ function secondXhr(vocalBlob) {
   };
 }
 
-jsPlayer.volume = 0.5;
-jsPermissionButton.disabled = false;
-jsRecordButton.disabled = true;
-jsStopButton.disabled = true;
-jsPlaybackButton.disabled = true;
-jsResultButton.disabled = true;
+element.audioPlayer.volume = 0.5;
+element.permissionButton.disabled = false;
+element.recordButton.disabled = true;
+element.stopButton.disabled = true;
+element.playbackButton.disabled = true;
+element.resultButton.disabled = true;
 
 window.addEventListener('resize', () => {
   audioVisualizer.resize()
 }, false);
 audioVisualizer.resize();
 
-jsPermissionButton.onclick = function() {
-  jsPlayer.src = '';
+element.permissionButton.onclick = function() {
+  element.audioPlayer.src = '';
   if(!stream) {
     navigator.mediaDevices.getUserMedia({
       video: false,
@@ -232,8 +217,8 @@ jsPermissionButton.onclick = function() {
       }
     })
       .then(function(audio) {
-        jsPermissionButton.classList.add('d-none');
-        jsRecordButton.classList.remove('d-none');
+        element.permissionButton.classList.add('d-none');
+        element.recordButton.classList.remove('d-none');
 
         stream = audio;
         audioVisualizer.startVisualization(stream);
@@ -248,28 +233,28 @@ jsPermissionButton.onclick = function() {
   }
 
   message.standby();
-  jsPermissionButton.disabled = true;
-  jsRecordButton.disabled = false;
-  jsStopButton.disabled = true;
-  jsPlaybackButton.disabled = true;
-  jsResultButton.disabled = true;
+  element.permissionButton.disabled = true;
+  element.recordButton.disabled = false;
+  element.stopButton.disabled = true;
+  element.playbackButton.disabled = true;
+  element.resultButton.disabled = true;
 };
 
-jsRecordButton.onclick = function() {
-  jsPlayer.src = '';
+element.recordButton.onclick = function() {
+  element.audioPlayer.src = '';
   
-  jsRecordButton.disabled = true;
-  jsStopButton.disabled = false;
-  jsPlaybackButton.disabled = true;
-  jsExampleButton.disabled = true;
+  element.recordButton.disabled = true;
+  element.stopButton.disabled = false;
+  element.playbackButton.disabled = true;
+  element.exampleButton.disabled = true;
 
   message.setReady();
   const countIn = new CountIn();
   countIn.start();
 
   recStart = setTimeout(() => {
-    jsRecordButton.classList.add('d-none');
-    jsStopButton.classList.remove('d-none');
+    element.recordButton.classList.add('d-none');
+    element.stopButton.classList.remove('d-none');
 
     audioData = [];
     audioContext = new AudioContext();
@@ -291,10 +276,10 @@ jsRecordButton.onclick = function() {
     }, 1000);
 
     timeout = setTimeout(() => {
-      jsStopButton.click();
+      element.stopButton.click();
     }, 5000);
 
-    jsStopButton.addEventListener('click', () => {
+    element.stopButton.addEventListener('click', () => {
       clearInterval(countDownTime);
       clearTimeout(timeout);
       clearTimeout(recStart);
@@ -304,60 +289,60 @@ jsRecordButton.onclick = function() {
   }, 2000);
 };
 
-jsStopButton.onclick = function() {
-  jsStopButton.classList.add('d-none');
-  jsPlaybackButton.classList.remove('d-none');
-  jsRetakeButton.classList.remove('d-none');
-  jsResultButton.classList.remove('d-none');
+element.stopButton.onclick = function() {
+  element.stopButton.classList.add('d-none');
+  element.playbackButton.classList.remove('d-none');
+  element.retakeButton.classList.remove('d-none');
+  element.resultButton.classList.remove('d-none');
 
   saveAudio();
-  jsRecordButton.disabled = false;
-  jsStopButton.disabled = true;
-  jsPlaybackButton.disabled = false;
-  jsResultButton.disabled = false;
-  jsExampleButton.disabled = false;
+  element.recordButton.disabled = false;
+  element.stopButton.disabled = true;
+  element.playbackButton.disabled = false;
+  element.resultButton.disabled = false;
+  element.exampleButton.disabled = false;
 };
 
-jsPlaybackButton.onclick = function() {
+element.playbackButton.onclick = function() {
   if(micBlobUrl) {
-    jsPlayer.src = micBlobUrl;
-    jsPlayer.onended = function() {
-      jsPlayer.pause();
-      jsPlayer.src = '';
+    element.audioPlayer.src = micBlobUrl;
+    element.audioPlayer.onended = function() {
+      element.audioPlayer.pause();
+      element.audioPlayer.src = '';
     };
-    jsPlayer.play();
+    element.audioPlayer.play();
   }
 };
 
-jsExampleButton.onclick = function() {
-  jsPlayer.src = jsExampleVocalLink.href;
-  jsPlayer.onended = function() {
-    jsPlayer.pause();
-    jsPlayer.src = '';
+element.exampleButton.onclick = function() {
+  element.audioPlayer.src = element.exampleVocalLink.href;
+  element.audioPlayer.onended = function() {
+    element.audioPlayer.pause();
+    element.audioPlayer.src = '';
   };
-  jsPlayer.play();
+  element.audioPlayer.play();
 };
 
-jsRetakeButton.onclick = function() {
-  jsPlayer.src = '';
-  jsRetakeButton.classList.add('d-none');
-  jsResultButton.classList.add('d-none');
-  jsPlaybackButton.classList.add('d-none');
-  jsRecordButton.classList.remove('d-none');
+element.retakeButton.onclick = function() {
+  element.audioPlayer.src = '';
+  element.retakeButton.classList.add('d-none');
+  element.resultButton.classList.add('d-none');
+  element.playbackButton.classList.add('d-none');
+  element.recordButton.classList.remove('d-none');
 
   message.standby();
 };
 
-jsResultButton.onclick = function() {
-  jsPlayer.src = '';
+element.resultButton.onclick = function() {
+  element.audioPlayer.src = '';
 
-  jsPlaybackButton.disabled = true;
-  jsExampleButton.disabled = true;
-  jsResultButton.disabled = true;
-  jsRetakeButton.disabled = true;
+  element.playbackButton.disabled = true;
+  element.exampleButton.disabled = true;
+  element.resultButton.disabled = true;
+  element.retakeButton.disabled = true;
 
-  jsMainArea.classList.add('d-none');
-  jsSpinner.classList.remove('d-none');
+  element.mainArea.classList.add('d-none');
+  element.spinner.classList.remove('d-none');
 
   message.mixingInProgress();
 

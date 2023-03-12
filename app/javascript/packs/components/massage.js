@@ -1,6 +1,6 @@
 export default class Message {
-  constructor() {
-    this.message = document.getElementById('js-message');
+  constructor(domElement) {
+    this.message = domElement;
     this.message.innerHTML = 'マイクを許可してください'
   }
 

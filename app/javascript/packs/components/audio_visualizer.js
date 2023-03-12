@@ -1,6 +1,6 @@
 export default class AudioVisualizer {
-  constructor() {
-    this.canvas = document.getElementById('js-canvas');
+  constructor(domElement) {
+    this.canvas = domElement;
     this.canvasContext = this.canvas.getContext('2d');
     this.drawContext = null;
     this.bufferLength = null;
