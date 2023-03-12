@@ -1,6 +1,8 @@
+import { canvas } from '../utils/recording_dom_elements'
+
 export default class AudioVisualizer {
-  constructor(domElement) {
-    this.canvas = domElement;
+  constructor() {
+    this.canvas = canvas;
     this.canvasContext = this.canvas.getContext('2d');
     this.drawContext = null;
     this.bufferLength = null;

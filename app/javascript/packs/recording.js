@@ -6,8 +6,8 @@ import axios from 'axios';
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers['X-CSRF-TOKEN'] = document.getElementsByName('csrf-token')[0].getAttribute('content');
 
-const message = new Message(element.message);
-const audioVisualizer = new AudioVisualizer(element.canvas);
+const message = new Message();
+const audioVisualizer = new AudioVisualizer();
 
 const BUFFER_SIZE = 1024;
 const GAIN_VALUE = 0.9;

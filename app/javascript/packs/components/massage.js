@@ -1,6 +1,8 @@
+import { message } from '../utils/recording_dom_elements'
+
 export default class Message {
-  constructor(domElement) {
-    this.message = domElement;
+  constructor() {
+    this.message = message;
     this.message.innerHTML = 'マイクを許可してください'
   }
 
