@@ -2,6 +2,7 @@ import CountIn from './components/count_in'
 import Message from './components/massage'
 import AudioVisualizer from "./components/audio_visualizer";
 import AudioRecorder from "./components/audio_recorder";
+import AudioMixer from "./components/audio_mixer";
 import element from "./utils/recording_dom_elements";
 import axios from 'axios';
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest';
@@ -10,65 +11,7 @@ axios.defaults.headers['X-CSRF-TOKEN'] = document.getElementsByName('csrf-token'
 const message = new Message();
 const audioVisualizer = new AudioVisualizer();
 const audioRecorder = new AudioRecorder(audioVisualizer, message);
-
-const GAIN_VALUE = 0.9;
-
-let mixContext = null;
-let mixDestination = null;
-let srcInstruments = null;
-let srcOrigin = null;
-let mixRecorder = null;
-let mixData = [];
-let mixUrl = null;
-let gainNode = null;
-
-async function mixing() {
-  console.log('ミックス開始');
-  mixContext = new AudioContext();
-  mixDestination = mixContext.createMediaStreamDestination();
-
-  srcOrigin = mixContext.createMediaElementSource(element.audioOrigin);
-  srcInstruments = mixContext.createMediaElementSource(element.audioInstruments);
-
-  gainNode = mixContext.createGain();
-  gainNode.gain.value = GAIN_VALUE;
-
-  srcInstruments.connect(gainNode);
-  srcInstruments.connect(mixDestination);
-  srcOrigin.connect(mixDestination);
-
-  element.audioInstruments.play();
-  setTimeout(() => {
-    element.audioOrigin.play();
-  }, 3750);
-
-  mixRecorder = new MediaRecorder(mixDestination.stream);
-  mixRecorder.start();
-
-  await (() => {
-    return new Promise(resolve => {
-      element.audioInstruments.addEventListener('ended', async() => {
-        await completeMixing();
-        await resolve();
-      }, { once: true });
-    });
-  })();
-}
-
-function completeMixing() {
-  mixRecorder.ondataavailable = (e) => {
-    mixData = [];
-    mixData.push(e.data);
-    mixUrl = window.URL.createObjectURL(e.data);
-    element.mixLink.href = mixUrl;
-    element.mixLink.download = 'mix.webm';
-  };
-  mixRecorder.stop();
-  srcInstruments.disconnect(gainNode);
-  srcInstruments.disconnect(mixDestination);
-  srcOrigin.disconnect(mixDestination);
-  console.log('ミックス完了');
-}
+const audioMixer = new AudioMixer();
 
 function firstXhr() {
   const xhr1 = new XMLHttpRequest();
@@ -189,7 +132,7 @@ element.resultButton.onclick = function() {
 
   message.mixingInProgress();
 
-  mixing().then(() => {
+  audioMixer.mixStart().then(() => {
     message.analysisResult();
     firstXhr();
   });
