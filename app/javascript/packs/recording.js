@@ -24,31 +24,31 @@ window.addEventListener('resize', () => {
 }, false);
 audioVisualizer.resize();
 
-element.permissionButton.onclick = function() {
-  audioRecorder.init();
-  message.standby();
+element.permissionButton.addEventListener('click', () => {
   element.permissionButton.disabled = true;
   element.recordButton.disabled = false;
   element.stopButton.disabled = true;
   element.playbackButton.disabled = true;
   element.resultButton.disabled = true;
-};
+  audioRecorder.init();
+  message.standby();
+});
 
-element.recordButton.onclick = function() {
+element.recordButton.addEventListener('click', () => {
   element.audioPlayer.src = '';
-  
+  element.recordButton.classList.add('d-none');
+  element.stopButton.classList.remove('d-none');
   element.recordButton.disabled = true;
   element.stopButton.disabled = false;
   element.playbackButton.disabled = true;
   element.exampleButton.disabled = true;
-
   message.setReady();
   const countIn = new CountIn();
   countIn.start();
   audioRecorder.startRecording();
-};
+});
 
-element.stopButton.onclick = function() {
+element.stopButton.addEventListener('click', () => {
   element.stopButton.classList.add('d-none');
   element.playbackButton.classList.remove('d-none');
   element.retakeButton.classList.remove('d-none');
@@ -58,46 +58,41 @@ element.stopButton.onclick = function() {
   element.playbackButton.disabled = false;
   element.resultButton.disabled = false;
   element.exampleButton.disabled = false;
-};
+  audioRecorder.stopRecording();
+});
 
-element.playbackButton.onclick = function() {
+element.playbackButton.addEventListener('click', () => {
   audioRecorder.playBack();
-};
+});
 
-element.exampleButton.onclick = function() {
+element.exampleButton.addEventListener('click', () => {
   element.audioPlayer.src = element.exampleVocalLink.href;
-  element.audioPlayer.onended = function() {
+  element.audioPlayer.onended = () => {
     element.audioPlayer.pause();
     element.audioPlayer.src = '';
   };
   element.audioPlayer.play();
-};
+});
 
-element.retakeButton.onclick = function() {
+element.retakeButton.addEventListener('click', () => {
   element.audioPlayer.src = '';
   element.retakeButton.classList.add('d-none');
   element.resultButton.classList.add('d-none');
   element.playbackButton.classList.add('d-none');
   element.recordButton.classList.remove('d-none');
-
   message.standby();
-};
+});
 
-element.resultButton.onclick = function() {
+element.resultButton.addEventListener('click', async () => {
   element.audioPlayer.src = '';
-
   element.playbackButton.disabled = true;
   element.exampleButton.disabled = true;
   element.resultButton.disabled = true;
   element.retakeButton.disabled = true;
-
   element.mainArea.classList.add('d-none');
   element.spinner.classList.remove('d-none');
-
   message.mixingInProgress();
-
-  audioMixer.mixStart().then(() => {
-    message.analysisResult();
-    recordingSubmitter.submit();
-  });
-};
+  await audioMixer.mixStart();
+  message.analysisResult();
+  recordingSubmitter.submit();
+});

@@ -45,8 +45,6 @@ export default class AudioRecorder {
 
   startRecording() {
     this.recStart = setTimeout(() => {
-      recordButton.classList.add('d-none');
-      stopButton.classList.remove('d-none');
       this.audioData = [];
       this.audioContext = new AudioContext();
       this.audioSampleRate = this.audioContext.sampleRate;
@@ -65,9 +63,8 @@ export default class AudioRecorder {
         }
       }, 1000);
       this.timeout = setTimeout(() => {
-        this.stopRecording();
+        stopButton.click();
       }, 5000);
-      stopButton.addEventListener('click', this.stopRecording.bind(this));
     }, 2000);
   }
 
@@ -81,7 +78,6 @@ export default class AudioRecorder {
   }
 
   stopRecording() {
-    stopButton.click();
     clearInterval(this.countdownTime);
     clearTimeout(this.timeout);
     clearTimeout(this.recStart);
