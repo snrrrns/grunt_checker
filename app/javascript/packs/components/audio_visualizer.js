@@ -33,31 +33,24 @@ export default class AudioVisualizer {
     const canvasWidth = this.canvas.width;
     const canvasHeight = this.canvas.height;
     const sliceWidth = canvasWidth / this.bufferLength;
-
     requestAnimationFrame(() => this.drawWaveForm());
-
     this.analyser.getByteTimeDomainData(this.dataArray);
-
     this.canvasContext.fillStyle = 'rgb(0, 0, 0)';
     this.canvasContext.fillRect(0, 0, canvasWidth, canvasHeight);
     this.canvasContext.lineWidth = 5;
     this.canvasContext.strokeStyle = 'rgb(200, 200, 200)';
     this.canvasContext.beginPath();
-
     let x = 0;
     for (let i = 0; i < this.bufferLength; i++) {
       let value = this.dataArray[i] / 128.0;
       let y = value * canvasHeight / 2;
-
       if (i === 0) {
         this.canvasContext.moveTo(x, y);
       } else {
         this.canvasContext.lineTo(x, y);
       }
-
       x += sliceWidth;
     }
-
     this.canvasContext.lineTo(canvasWidth, canvasHeight / 2);
     this.canvasContext.stroke();
   }
@@ -65,7 +58,6 @@ export default class AudioVisualizer {
   resize() {
     const windowInnerWidth = window.innerWidth.toString();
     const windowInnerHeight = window.innerHeight.toString();
-
     this.canvas.setAttribute('width', windowInnerWidth);
     this.canvas.setAttribute('height', windowInnerHeight);
   }

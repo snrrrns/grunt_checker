@@ -5,7 +5,6 @@ export default class RecordingSubmitter {
   constructor() {
     axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest';
     axios.defaults.headers['X-CSRF-TOKEN'] = document.getElementsByName('csrf-token')[0].getAttribute('content');
-
   }
   submit() {
     this.firstRequest();

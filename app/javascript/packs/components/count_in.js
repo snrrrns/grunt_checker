@@ -1,4 +1,5 @@
 import * as Tone from 'tone';
+
 export default class CountIn {
   constructor() {
     this.noteList = ['G5', 'C5', 'C5', 'C5'];
@@ -10,10 +11,8 @@ export default class CountIn {
         release: 1
       }
     }).toDestination();
-
     this.sequence = new Tone.Sequence(this.playNote.bind(this), this.noteList);
     this.sequence.loop = 1;
-
     Tone.Transport.bpm.value = 60;
     Tone.Transport.start();
   }
