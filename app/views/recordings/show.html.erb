@@ -20,7 +20,7 @@
   </div>
 
   <div class="container-fluid">
-    <p class="text-center my-3"><span id="js-timer">マイクを許可してください</span></p>
+    <p class="text-center my-3"><span id="js-message"></span></p>
     <div id="js-main-area">
       <div class="row">
         <div class="col-6">
@@ -45,7 +45,7 @@
 
       <div class="sound-clips my-2">
         <div class="d-flex justify-content-center">
-          <audio id="js-player" controls></audio>
+          <audio id="js-audio-player" controls></audio>
         </div>
       </div>
 
@@ -80,7 +80,7 @@
   <a id="js-download-link" type="hidden"></a>
   <a id="js-mix-link" type="hidden"></a>
 
-  <%= form_with url: recording_results_path(@recording), id: "voiceform", local: true do |f| %>
+  <%= form_with url: recording_results_path(@recording), id: "voice-form", local: true do |f| %>
     <%= f.hidden_field :recording_id, :value => @recording.id %>
     <%= f.hidden_field :vocal_data %>
     <%= f.hidden_field :compose_song %>
