@@ -12,6 +12,7 @@ AllCops:
     - 'db/**/*'
     - 'bin/**/*'
     - 'spec/**/*'
+    - 'node_modules/**/*'
   DisplayCopNames: true
 
 Style/AsciiComments:
