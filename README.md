@@ -40,7 +40,7 @@
 ### フロントエンド
 - JavaScript
 
-###　音声録音・合成処理
+### 音声録音・合成処理
 - MediaStream Recording API
 - Web Audio API
 
