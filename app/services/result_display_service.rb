@@ -56,7 +56,7 @@ class ResultDisplayService
     when SCORE_NICE...SCORE_GREAT
       'まずまずです！更に磨きをかけましょう！'
     when SCORE_OK...SCORE_NICE
-      'もっといけそうです！その調子で練習を重ねましょう！
+      'もっといけそうです！その調子で練習を重ねましょう！'
     when SCORE_MINIMUM...SCORE_OK
       '残念！練習して再チャレンジ！'
     end
