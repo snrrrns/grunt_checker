@@ -1,55 +1,64 @@
 class ResultDisplayService
+  SCORE_INSANE = 90
+  SCORE_EXCELLENT = 80
+  SCORE_GREAT = 60
+  SCORE_NICE = 40
+  SCORE_OK = 20
+  SCORE_MINIMUM = 0
+
   def initialize(result)
     @result = result
   end
 
   def call
-    if @result.score.ceil(0).zero?
-      {
-        score: (@result.created_at.strftime('%S')[1].to_i).ceil(0),
-        evaluation: 'Keep trying!',
-        comment: '残念！練習して再チャレンジ！'
-      }
-    elsif @result.score.ceil(0).positive? && @result.score.ceil(0) < 20
-      {
-        score: @result.score.ceil(0),
-        evaluation: 'Keep trying!',
-        comment: '残念！練習して再チャレンジ！'
-      }
-    elsif @result.score.ceil(0) >= 20 && @result.score.ceil(0) < 40
-      {
-        score: @result.score.ceil(0),
-        evaluation: 'OK!',
-        comment: 'もっといけそうです！その調子で練習を重ねましょう！'
-      }
-    elsif @result.score.ceil(0) >= 40 && @result.score.ceil(0) < 60
-      {
-        score: @result.score.ceil(0),
-        evaluation: 'Nice!!',
-        comment: 'まずまずです！更に磨きをかけましょう！'
-      }
-    elsif @result.score.ceil(0) >= 60 && @result.score.ceil(0) < 80
-      {
-        score: @result.score.ceil(0),
-        evaluation: 'Great!!!',
-        comment: 'かなりいい感じ！バンドでコーラスを担当できそうです！'
-      }
-    elsif @result.score.ceil(0) >= 80 && @result.score.ceil(0) < 90
-      {
-        score: @result.score.ceil(0),
-        evaluation: 'Exellent!!!!',
-        comment: 'すばらしい！バンドでボーカルやれちゃいます！'
-      }
-    else
-      {
-        score: @result.score.ceil(0),
-        evaluation: 'Insane!!!!!',
-        comment: '本業の方ですか？恐るべきデスボイス！'
-      }
-    end
+    {
+      score: display_score,
+      evaluation: display_evaluation,
+      comment: display_comment
+    }
   end
 
   private
 
   attr_reader :result
+
+  def display_score
+    score = @result.score.ceil(0)
+    score = (@result.created_at.to_i % 10 + 1).ceil(0) if score.zero?
+    score
+  end
+
+  def display_evaluation
+    case display_score
+    when SCORE_INSANE..Float::INFINITY
+      'Insane!!!!!'
+    when SCORE_EXCELLENT...SCORE_INSANE
+      'Excellent!!!!'
+    when SCORE_GREAT...SCORE_EXCELLENT
+      'Great!!!'
+    when SCORE_NICE...SCORE_GREAT
+      'Nice!!'
+    when SCORE_OK...SCORE_NICE
+      'OK!'
+    when SCORE_MINIMUM...SCORE_OK
+      'Keep trying!'
+    end
+  end
+
+  def display_comment
+    case display_score
+    when SCORE_INSANE..Float::INFINITY
+      '本業の方ですか？恐るべきデスボイス！'
+    when SCORE_EXCELLENT...SCORE_INSANE
+      'すばらしい！バンドでボーカルやれちゃいます！'
+    when SCORE_GREAT...SCORE_EXCELLENT
+      'かなりいい感じ！バンドでコーラスを担当できそうです！'
+    when SCORE_NICE...SCORE_GREAT
+      'まずまずです！更に磨きをかけましょう！'
+    when SCORE_OK...SCORE_NICE
+      '残念！練習して再チャレンジ！'
+    when SCORE_MINIMUM...SCORE_OK
+      '残念！練習して再チャレンジ！'
+    end
+  end
 end
