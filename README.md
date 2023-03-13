@@ -40,9 +40,9 @@
 ### フロントエンド
 - JavaScript
 
-### ブラウザAPI
-- MediaStreamRecording API（録音）
-- Web Audio API（音声合成・加工、音量調節）
+###　音声録音・合成処理
+- MediaStream Recording API
+- Web Audio API
 
 ### 外部API
 - User Local 音声感情認識AI
