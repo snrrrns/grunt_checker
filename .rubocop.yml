@@ -13,7 +13,6 @@ AllCops:
     - 'bin/**/*'
     - 'spec/**/*'
     - 'node_modules/**/*'
-    - 'app/services/result_display_service.rb'
   DisplayCopNames: true
 
 Style/AsciiComments:
