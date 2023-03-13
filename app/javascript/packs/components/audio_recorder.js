@@ -1,4 +1,4 @@
-import { audioPlayer, permissionButton, recordButton, stopButton, downloadLink, audioOrigin } from "../utils/recording_dom_elements";
+import { audioPlayer, permissionButton, recordButton, stopButton, downloadLink, audioOrigin } from '../utils/recording_dom_elements';
 
 const BUFFER_SIZE = 1024;
 
