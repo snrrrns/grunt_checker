@@ -1,10 +1,10 @@
-import CountIn from './components/count_in'
-import Message from './components/massage'
-import AudioVisualizer from "./components/audio_visualizer";
-import AudioRecorder from "./components/audio_recorder";
-import AudioMixer from "./components/audio_mixer";
-import RecordingSubmitter from "./components/recording_submitter";
-import element from "./utils/recording_dom_elements";
+import CountIn from './components/count_in';
+import Message from './components/massage';
+import AudioVisualizer from './components/audio_visualizer';
+import AudioRecorder from './components/audio_recorder';
+import AudioMixer from './components/audio_mixer';
+import RecordingSubmitter from './components/recording_submitter';
+import element from './utils/recording_dom_elements';
 
 const message = new Message();
 const audioVisualizer = new AudioVisualizer();
@@ -20,7 +20,7 @@ element.playbackButton.disabled = true;
 element.resultButton.disabled = true;
 
 window.addEventListener('resize', () => {
-  audioVisualizer.resize()
+  audioVisualizer.resize();
 }, false);
 audioVisualizer.resize();
 

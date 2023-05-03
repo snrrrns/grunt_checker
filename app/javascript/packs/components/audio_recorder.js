@@ -147,8 +147,8 @@ export default class AudioRecorder {
         sampleIdx++;
       }
     }
-    return samples
-  };
+    return samples;
+  }
 
   playBack() {
     if (this.micBlobUrl) {

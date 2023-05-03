@@ -36,4 +36,4 @@ export default {
   message,
   audioPlayer,
   spinner,
-}
+};
