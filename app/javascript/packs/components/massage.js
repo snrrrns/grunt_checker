@@ -1,8 +1,8 @@
-import { message } from '../utils/recording_dom_elements'
+import { message } from '../utils/recording_dom_elements';
 
 export default class Message {
   constructor() {
-    message.innerHTML = 'マイクを許可してください'
+    message.innerHTML = 'マイクを許可してください';
   }
 
   standby() {
@@ -14,7 +14,7 @@ export default class Message {
   }
 
   recordingStart() {
-    message.innerHTML = `録音中！終了まであと5秒`
+    message.innerHTML = '録音中！終了まであと5秒';
   }
 
   recordingInProgress(sec) {
@@ -22,7 +22,7 @@ export default class Message {
   }
 
   completeRecording() {
-    message.innerHTML = '録音完了！'
+    message.innerHTML = '録音完了！';
   }
 
   mixingInProgress() {
@@ -31,6 +31,6 @@ export default class Message {
   }
 
   analysisResult() {
-    message.innerHTML = '測定中...'
+    message.innerHTML = '測定中...';
   }
 }

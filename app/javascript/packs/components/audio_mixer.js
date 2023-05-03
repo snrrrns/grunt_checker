@@ -1,4 +1,4 @@
-import { audioOrigin, audioInstruments, mixLink } from '../utils/recording_dom_elements'
+import { audioOrigin, audioInstruments, mixLink } from '../utils/recording_dom_elements';
 
 const GAIN_VALUE = 0.9;
 
@@ -36,7 +36,7 @@ export default class AudioMixer {
           await this.mixComplete();
           await resolve();
         }, { once: true });
-      })
+      });
     })();
   }
 

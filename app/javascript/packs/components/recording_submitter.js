@@ -1,4 +1,4 @@
-import { downloadLink, mixLink } from '../utils/recording_dom_elements'
+import { downloadLink, mixLink } from '../utils/recording_dom_elements';
 import axios from 'axios';
 
 export default class RecordingSubmitter {
@@ -17,7 +17,7 @@ export default class RecordingSubmitter {
     request.onload = () => {
       const vocalBlob = request.response;
       this.secondRequest(vocalBlob);
-    }
+    };
     request.send();
   }
 
@@ -41,7 +41,7 @@ export default class RecordingSubmitter {
       }).catch(error => {
         console.log(error);
       });
-    }
+    };
     request.send();
   }
 }

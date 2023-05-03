@@ -1,4 +1,4 @@
-import { canvas } from '../utils/recording_dom_elements'
+import { canvas } from '../utils/recording_dom_elements';
 
 export default class AudioVisualizer {
   constructor() {
