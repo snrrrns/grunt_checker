@@ -1,5 +1,5 @@
 # Grunt Checker - デスボイス測定アプリ
-[![Rails](https://img.shields.io/badge/Rails-v6.1.4.4-CC0000)](https://rubygems.org/gems/rails/versions/6.1.4.4)
+[![Rails](https://img.shields.io/badge/Rails-v6.1.7.2-CC0000)](https://rubygems.org/gems/rails/versions/6.1.7.2)
 
 ※ 現在サービス公開停止中です
 
@@ -35,10 +35,11 @@
 ## 使用技術
 ### バックエンド
 - Ruby 3.0.2
-- Rails 6.1.4.4
+- Rails 6.1.7.2
 
 ### フロントエンド
 - JavaScript
+- TypeScript
 
 ### 音声録音・合成処理
 - MediaStream Recording API
@@ -47,9 +48,10 @@
 ### 外部API
 - User Local 音声感情認識AI
 
-### インフラ
-- Heroku
+### DB
 - PostgreSQL
+
+　ストレージ
 - Amazon S3
 
 ## なぜこのサービスを作ったのか？
