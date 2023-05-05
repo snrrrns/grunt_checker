@@ -1,4 +1,4 @@
-const jsFadeInTarget = document.getElementsByClassName('js-fade-in');
+const jsFadeInTarget = document.getElementsByClassName('js-fade-in') as HTMLCollectionOf<HTMLDivElement>;
 
 window.addEventListener('scroll', () => {
   for(let i = 0; i < jsFadeInTarget.length; i++) {

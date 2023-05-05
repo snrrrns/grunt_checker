@@ -1,9 +1,35 @@
-import { audioPlayer, permissionButton, recordButton, stopButton, downloadLink, audioOrigin } from '../utils/recording_dom_elements';
+import {
+  audioPlayer,
+  permissionButton,
+  recordButton,
+  stopButton,
+  downloadLink,
+  audioOrigin
+} from '../utils/recording_dom_elements';
+import AudioVisualizer from './audio_visualizer';
+import Message from './message';
 
 const BUFFER_SIZE = 1024;
+const INIT_REMAINING_TIME = 4;
+const COUNTDOWN_INTERVAL = 1000;
+const REC_DURATION = 5000;
+const REC_START_DELAY = 2000;
 
 export default class AudioRecorder {
-  constructor(audioVisualizer, message) {
+  audioData: Float32Array[];
+  stream: MediaStream | null;
+  audioContext: AudioContext | null;
+  audioSampleRate: number | null;
+  micBlobUrl: string | null;
+  scriptProcessor: ScriptProcessorNode | null;
+  mediaStreamSource: MediaStreamAudioSourceNode | null;
+  recStart: ReturnType<typeof setTimeout> | null;
+  countdownTime: ReturnType<typeof setInterval> | null;
+  timeout: ReturnType<typeof setTimeout> | null;
+  audioVisualizer: AudioVisualizer;
+  message: Message;
+
+  constructor(audioVisualizer: AudioVisualizer, message: Message) {
     this.audioData = [];
     this.stream = null;
     this.audioContext = null;
@@ -26,7 +52,6 @@ export default class AudioRecorder {
         video: false,
         audio: {
           echoCancellation: true,
-          echoCancellationType: 'system',
           noiseSuppression: false,
         }
       })
@@ -37,7 +62,7 @@ export default class AudioRecorder {
           this.audioVisualizer.startVisualization(this.stream);
           return this.stream;
         })
-        .catch((error) => {
+        .catch((error: Error) => {
           console.error('mediaDevices.getUserMedia() error:', error);
         });
     }
@@ -54,21 +79,21 @@ export default class AudioRecorder {
       this.scriptProcessor.onaudioprocess = this.onAudioProcess.bind(this);
       this.scriptProcessor.connect(this.audioContext.destination);
       this.message.recordingStart();
-      let remainingTime = 4;
+      let remainingTime = INIT_REMAINING_TIME;
       this.countdownTime = setInterval(() => {
-        let sec = remainingTime--;
+        const sec = remainingTime--;
         this.message.recordingInProgress(sec);
         if (sec === 0) {
           clearInterval(this.countdownTime);
         }
-      }, 1000);
+      }, COUNTDOWN_INTERVAL);
       this.timeout = setTimeout(() => {
         stopButton.click();
-      }, 5000);
-    }, 2000);
+      }, REC_DURATION);
+    }, REC_START_DELAY);
   }
 
-  onAudioProcess(e) {
+  onAudioProcess(e: AudioProcessingEvent) {
     const input = e.inputBuffer.getChannelData(0);
     const bufferData = new Float32Array(BUFFER_SIZE);
     for (let i = 0; i < BUFFER_SIZE; i++) {
@@ -85,14 +110,13 @@ export default class AudioRecorder {
     this.message.completeRecording();
   }
 
-  saveAudio(audioData) {
+  saveAudio(audioData: Float32Array[]) {
     this.exportWav(audioData);
     downloadLink.download = 'recorded.wav';
-    this.audioContext.close().then(function() {
-    });
+    this.audioContext.close();
   }
 
-  exportWav(audioData) {
+  exportWav(audioData: Float32Array[]) {
     const dataView = this.encodeWav(this.mergeBuffers(audioData), this.audioSampleRate);
     const audioBlob = new Blob([dataView], { type: 'audio/wav' });
     this.micBlobUrl = window.URL.createObjectURL(audioBlob);
@@ -100,20 +124,19 @@ export default class AudioRecorder {
     const url = myUrl.createObjectURL(audioBlob);
     downloadLink.href = url;
     audioOrigin.src = url;
-
   }
 
-  encodeWav(samples, sampleRate) {
+  encodeWav(samples: Float32Array, sampleRate: number): DataView {
     const buffer = new ArrayBuffer(44 + samples.length * 2);
     const dataView = new DataView(buffer);
-    const writeStringToDataView = (dataView, offset, formatStr) => {
+    const writeStringToDataView = (dataView: DataView, offset: number, formatStr: string) => {
       for (let i = 0; i < formatStr.length; i++) {
         dataView.setUint8(offset + i, formatStr.charCodeAt(i));
       }
     };
-    const floatTo16BitPCM = (pcm16BitData, offset, samples) => {
+    const floatTo16BitPCM = (pcm16BitData: DataView, offset: number, samples: Float32Array) => {
       for (let i = 0; i < samples.length; i++, offset += 2) {
-        let sample = Math.max(-1, Math.min(1, samples[i]));
+        const sample = Math.max(-1, Math.min(1, samples[i]));
         pcm16BitData.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
       }
     };
@@ -134,7 +157,7 @@ export default class AudioRecorder {
     return dataView;
   }
 
-  mergeBuffers(audioData) {
+  mergeBuffers(audioData: Float32Array[]): Float32Array {
     let sampleLength = 0;
     let sampleIdx = 0;
     for (let i = 0; i < audioData.length; i++) {

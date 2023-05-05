@@ -1,5 +1,5 @@
 import CountIn from './components/count_in';
-import Message from './components/massage';
+import Message from './components/message';
 import AudioVisualizer from './components/audio_visualizer';
 import AudioRecorder from './components/audio_recorder';
 import AudioMixer from './components/audio_mixer';

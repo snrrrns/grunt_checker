@@ -1,6 +1,14 @@
 import { canvas } from '../utils/recording_dom_elements';
 
 export default class AudioVisualizer {
+  canvas: HTMLCanvasElement;
+  canvasContext: CanvasRenderingContext2D;
+  drawContext: AudioContext | null;
+  analyser: AnalyserNode | null;
+  bufferLength: number | null;
+  dataArray: Uint8Array | null;
+  inputStream: MediaStreamAudioSourceNode | null;
+
   constructor() {
     this.canvas = canvas;
     this.canvasContext = this.canvas.getContext('2d');
@@ -11,12 +19,12 @@ export default class AudioVisualizer {
     this.inputStream = null;
   }
 
-  startVisualization(stream) {
+  startVisualization(stream: MediaStream) {
     this.createDrawContext(stream);
     this.drawWaveForm();
   }
 
-  createDrawContext(stream) {
+  createDrawContext(stream: MediaStream) {
     if (!this.drawContext) {
       this.drawContext = new AudioContext();
     }
@@ -42,8 +50,8 @@ export default class AudioVisualizer {
     this.canvasContext.beginPath();
     let x = 0;
     for (let i = 0; i < this.bufferLength; i++) {
-      let value = this.dataArray[i] / 128.0;
-      let y = value * canvasHeight / 2;
+      const value = this.dataArray[i] / 128.0;
+      const y = value * canvasHeight / 2;
       if (i === 0) {
         this.canvasContext.moveTo(x, y);
       } else {
