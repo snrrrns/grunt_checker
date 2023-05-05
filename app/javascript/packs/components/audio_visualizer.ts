@@ -50,8 +50,8 @@ export default class AudioVisualizer {
     this.canvasContext.beginPath();
     let x = 0;
     for (let i = 0; i < this.bufferLength; i++) {
-      let value = this.dataArray[i] / 128.0;
-      let y = value * canvasHeight / 2;
+      const value = this.dataArray[i] / 128.0;
+      const y = value * canvasHeight / 2;
       if (i === 0) {
         this.canvasContext.moveTo(x, y);
       } else {

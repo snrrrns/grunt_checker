@@ -81,7 +81,7 @@ export default class AudioRecorder {
       this.message.recordingStart();
       let remainingTime = INIT_REMAINING_TIME;
       this.countdownTime = setInterval(() => {
-        let sec = remainingTime--;
+        const sec = remainingTime--;
         this.message.recordingInProgress(sec);
         if (sec === 0) {
           clearInterval(this.countdownTime);
@@ -113,7 +113,7 @@ export default class AudioRecorder {
   saveAudio(audioData: Float32Array[]) {
     this.exportWav(audioData);
     downloadLink.download = 'recorded.wav';
-    this.audioContext.close().then(() => {});
+    this.audioContext.close();
   }
 
   exportWav(audioData: Float32Array[]) {
@@ -136,7 +136,7 @@ export default class AudioRecorder {
     };
     const floatTo16BitPCM = (pcm16BitData: DataView, offset: number, samples: Float32Array) => {
       for (let i = 0; i < samples.length; i++, offset += 2) {
-        let sample = Math.max(-1, Math.min(1, samples[i]));
+        const sample = Math.max(-1, Math.min(1, samples[i]));
         pcm16BitData.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
       }
     };
