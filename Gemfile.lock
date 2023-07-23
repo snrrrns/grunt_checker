@@ -102,6 +102,8 @@ GEM
     debug_inspector (1.1.0)
     diff-lcs (1.5.0)
     docile (1.4.0)
+    dockerfile-rails (1.5.1)
+      rails
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.8.1)
@@ -190,7 +192,11 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.5.8)
+    nokogiri (1.14.2-aarch64-linux)
+      racc (~> 1.4)
     nokogiri (1.14.2-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.14.2-x86_64-linux)
       racc (~> 1.4)
     oauth (0.6.2)
       snaky_hash (~> 2.0)
@@ -385,7 +391,9 @@ GEM
     zeitwerk (2.6.7)
 
 PLATFORMS
+  aarch64-linux
   arm64-darwin-20
+  x86_64-linux
 
 DEPENDENCIES
   annotate
@@ -395,6 +403,7 @@ DEPENDENCIES
   byebug
   capybara
   carrierwave (~> 2.0)
+  dockerfile-rails (>= 1.5)
   dotenv-rails
   enum_help
   factory_bot_rails
