@@ -5,9 +5,13 @@ class ApplicationController < ActionController::Base
   private
 
   def ensure_domain
-    return unless /\.herokuapp.com/.match?(request.host)
+    # リクエストがFQDNに一致する場合、何もしない
+    return if request.host == FQDN
 
-    port = ":#{request.port}" unless [80, 443].include?(request.port)
-    redirect_to "#{request.protocol}#{FQDN}#{port}#{request.path}", status: :moved_permanently
+    # gruntchecker.com または gruntchecker.fly.dev からのアクセスの場合にリダイレクト
+    if /gruntchecker\.com\z|gruntchecker\.fly\.dev\z/.match?(request.host)
+      port = ":#{request.port}" unless [80, 443].include?(request.port)
+      redirect_to "#{request.protocol}#{FQDN}#{port}#{request.path}", status: :moved_permanently
+    end
   end
 end
